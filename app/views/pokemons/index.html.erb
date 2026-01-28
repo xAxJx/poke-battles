@@ -1,0 +1,40 @@
+<h2> Pokemon List </h2>
+<table>
+  <tr>
+    <td>Number</td>
+    <td>Picture</td>
+    <td>Name</td>
+    <td>Type</td>
+    <td>HP</td>
+    <td>Attack</td>
+    <td>Defense</td>
+    <td>Speed</td>
+    <td>Select</td>
+  </tr>
+
+    <tr>
+    <td>1</td>
+    <td><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"></td>
+    <td>Testasaur</td>
+    <td>Grass</td>
+    <td>45</td>
+    <td>49</td>
+    <td>49</td>
+    <td>45</td>
+    <td>[+]</td>
+    </tr>
+
+    <%@pokemons.each do |pokemon| %>
+    <tr>
+    <td><%= pokemon.number %></td>
+    <td><%= image_tag "#{pokemon.picture}"%> </td>
+    <td><%= pokemon.name %></td>
+    <td><%= pokemon.type1 %></td>
+    <td><%= pokemon.hp_max %></td>
+    <td><%= pokemon.attack %></td>
+    <td><%= pokemon.defense %></td>
+    <td><%= pokemon.speed %></td>
+    <td>[+]</td>
+    </tr>
+    <% end %>
+</table>
