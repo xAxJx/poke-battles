@@ -1,4 +1,4 @@
-<h2> Pokemon List </h2>
+<h2> <%= link_to "Pokemon List", utl: "pokemons" %> </h2>
 
 <%= form_with url: "pokemons/search", method: :get do |f|%>
 <%= f.label :search, "Search for Pokemon:" %>
@@ -8,17 +8,17 @@
 
 <table>
   <tr>
-    <td>Number</td>
+    <td><%= link_to "Number", :sort => "id" %></td>
     <td>Picture</td>
-    <td>Name</td>
-    <td>Type</td>
-    <td>Type</td>
-    <td>HP</td>
-    <td>Attack</td>
-    <td>Defense</td>
-    <td>Special Atk</td>
-    <td>Special Def</td>
-    <td>Speed</td>
+    <td><%= link_to "Name", :sort => "name" %></td>
+    <td> <%= link_to "Type", :sort => "type1" %> </td>
+    <td><%= link_to "Type", :sort => "type2" %> </td>
+    <td><%= link_to "HP", :sort => "hp_max", :direction => "desc" %></td>
+    <td><%= link_to "Attack", :sort => "attack", :direction => "desc" %></td>
+    <td><%= link_to "Defense", :sort => "defense", :direction => "desc" %></td>
+    <td><%= link_to "Special Atk", :sort => "sp_attack", :direction => "desc"  %></td>
+    <td><%= link_to "Special Def", :sort => "sp_defense", :direction => "desc"  %></td>
+    <td><%= link_to "Speed", :sort => "speed", :direction => "desc"  %></td>
     <td>Select</td>
   </tr>
 

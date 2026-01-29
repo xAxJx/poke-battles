@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_28_072811) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_29_070126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,7 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_28_072811) do
     t.string "picture"
     t.string "type1"
     t.string "type2"
-    t.string "hp_max"
+    t.integer "hp_max"
     t.string "integer"
     t.integer "hp_current"
     t.integer "attack"
