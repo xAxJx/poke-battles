@@ -14,3 +14,6 @@ Rails.application.routes.draw do
   get "pokemons/search", to: "pokemons#search"
 
 end
+
+
+# Test commment
