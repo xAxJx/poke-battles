@@ -5,9 +5,12 @@
     <td>Picture</td>
     <td>Name</td>
     <td>Type</td>
+    <td>Type</td>
     <td>HP</td>
     <td>Attack</td>
     <td>Defense</td>
+    <td>Special Atk</td>
+    <td>Special Def</td>
     <td>Speed</td>
     <td>Select</td>
   </tr>
@@ -17,7 +20,10 @@
     <td><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"></td>
     <td>Testasaur</td>
     <td>Grass</td>
+    <td>Poison</td>
     <td>45</td>
+    <td>49</td>
+    <td>49</td>
     <td>49</td>
     <td>49</td>
     <td>45</td>
@@ -30,9 +36,12 @@
     <td><%= image_tag "#{pokemon.picture}"%> </td>
     <td><%= pokemon.name %></td>
     <td><%= pokemon.type1 %></td>
+    <td><%= pokemon.type2 %></td>
     <td><%= pokemon.hp_max %></td>
     <td><%= pokemon.attack %></td>
     <td><%= pokemon.defense %></td>
+    <td><%= pokemon.sp_attack %></td>
+    <td><%= pokemon.sp_defense %></td>
     <td><%= pokemon.speed %></td>
     <td>[+]</td>
     </tr>

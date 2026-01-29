@@ -34,7 +34,7 @@ hash_poke = JSON.parse(file_poke)
 
 poke = Pokemon.new(
 name: hash_poke["name"],
-number: 1,
+number: hash_poke["id"],
 picture: hash_poke["sprites"]["front_default"],
 type1: hash_poke["types"][0]["type"]["name"],
 type2: "",
@@ -50,8 +50,15 @@ move2: "leech seed",
 move3: "tackle",
 move4: "growl"
 )
+
+  if hash_poke["types"][1]
+    poke.type2 = hash_poke["types"][1]["type"]["name"]
+  end
+
 poke.save!
 end
+
+puts "Saved #{Pokemon.count} Pokemon to database."
 
 # poke = Pokemon.new(
 # name: "Bulbasaur",
