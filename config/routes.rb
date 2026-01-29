@@ -15,7 +15,6 @@ Rails.application.routes.draw do
 
   resources :pokemons, only: [:index, :show] do
     resources :moves
-    resources :search
     end
 
   # Create game session
@@ -25,7 +24,7 @@ Rails.application.routes.draw do
       # create a team
 
       resources :teams, only: [:new, :create, :show, :edit] do
-
+        resources :pokemons_team # maybe [:show]
       end
 
       # battle log
