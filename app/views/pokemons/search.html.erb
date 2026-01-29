@@ -1,10 +1,12 @@
-<h2> Pokemon List </h2>
+<h2> Search Results for "<%=@search%>" </h2>
 
-<%= form_with url: "pokemons/search", method: :get do |f|%>
-<%= f.label :search, "Search for Pokemon:" %>
+<%= form_with url: "search", method: :get do |f|%>
+<%= f.label :search, "Search again:" %>
 <%= f.search_field :search %>
 <%= f.submit "Search"%>
 <% end %>
+
+<h3> Displaying <%=@pokemons.count%> pokemon found. </h3>
 
 <table>
   <tr>
@@ -21,21 +23,6 @@
     <td>Speed</td>
     <td>Select</td>
   </tr>
-
-    <tr>
-    <td>1</td>
-    <td><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"></td>
-    <td>Testasaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td>45</td>
-    <td>49</td>
-    <td>49</td>
-    <td>49</td>
-    <td>49</td>
-    <td>45</td>
-    <td>[+]</td>
-    </tr>
 
     <%@pokemons.each do |pokemon| %>
     <tr>

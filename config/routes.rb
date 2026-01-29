@@ -11,4 +11,6 @@ Rails.application.routes.draw do
 
   get "pokemons", to: "pokemons#index"
 
+  get "pokemons/search", to: "pokemons#search"
+
 end
