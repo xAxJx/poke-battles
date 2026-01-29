@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       # create a team
 
       resources :teams, only: [:new, :create, :show, :edit] do
-        resources :selected_pokemon # maybe [:show]
+        resources :selected_pokemon
       end
 
       # battle log
