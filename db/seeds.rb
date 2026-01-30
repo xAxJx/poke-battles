@@ -9,7 +9,7 @@
 #   end
 #
 puts "Cleaning database"
-Pokemon.destroy_all
+# Pokemon.destroy_all
 
 puts "Accessing API"
 
@@ -25,7 +25,7 @@ require 'open-uri'
 
 puts "Populating Pokemon"
 
-(1..151).each do |number|
+(1..1).each do |number|
 
 poke_url = "https://pokeapi.co/api/v2/pokemon/#{number}"
 
@@ -100,3 +100,31 @@ puts "Saved #{Pokemon.count} Pokemon to database."
 # move4: ""
 # )
 # poke.save!
+
+
+# Moves
+puts "Populating move list"
+Move.destroy_all
+
+(1..3).each do |number|
+
+    move_url = "https://pokeapi.co/api/v2/move/#{number}"
+
+    file_move = URI.parse(move_url).read
+    hash_move = JSON.parse(file_move)
+
+    move = Move.new(
+      move_id: hash_move["id"],
+      name: hash_move["name"],
+      move_type: hash_move["type"]["name"],
+      power: hash_move["power"],
+      accuracy: hash_move["accuracy"],
+      damage_class: hash_move["damage_class"]["name"],
+      description: hash_move["flavor_text_entries"][0]["flavor_text"],
+      effect_chance: hash_move["effect_chance"],
+      effect: hash_move["effect_entries"][1]["effect"]
+    )
+    move.save!
+  end
+
+puts "Added #{Move.count} moves.";
