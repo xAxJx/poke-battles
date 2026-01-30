@@ -103,10 +103,13 @@ puts "Saved #{Pokemon.count} Pokemon to database."
 
 
 # Moves
-puts "Populating move list"
+puts "Cleaning move list"
 Move.destroy_all
 
-(1..3).each do |number|
+puts "Populating move list"
+
+
+(1..165).each do |number|
 
     move_url = "https://pokeapi.co/api/v2/move/#{number}"
 
