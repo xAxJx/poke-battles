@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   # Create game session
   resources :games, only: [:new, :create, :show] do
-      resource :battle
+      resources :battle
 
       # create a team
 
