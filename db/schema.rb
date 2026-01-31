@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_31_062827) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_31_063508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,20 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_31_062827) do
     t.string "move4"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "moves"
+  end
+
+  create_table "selected_pokemons", force: :cascade do |t|
+    t.bigint "pokemon_id", null: false
+    t.integer "hp_current"
+    t.integer "exp"
+    t.string "status"
+    t.string "ability"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "team_id", null: false
+    t.index ["pokemon_id"], name: "index_selected_pokemons_on_pokemon_id"
+    t.index ["team_id"], name: "index_selected_pokemons_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
