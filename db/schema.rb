@@ -22,6 +22,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_31_062827) do
     t.index ["user_id"], name: "index_games_on_user_id"
   end
 
+  create_table "learned_moves", force: :cascade do |t|
+    t.bigint "selected_pokemon_id", null: false
+    t.bigint "move_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["move_id"], name: "index_learned_moves_on_move_id"
+    t.index ["selected_pokemon_id"], name: "index_learned_moves_on_selected_pokemon_id"
+  end
+
   create_table "moves", force: :cascade do |t|
     t.integer "move_id"
     t.string "name"
@@ -79,5 +88,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_31_062827) do
   end
 
   add_foreign_key "games", "users"
+  add_foreign_key "learned_moves", "moves"
+  add_foreign_key "learned_moves", "selected_pokemons"
+  add_foreign_key "selected_pokemons", "pokemons"
+  add_foreign_key "selected_pokemons", "teams"
   add_foreign_key "teams", "games"
 end
