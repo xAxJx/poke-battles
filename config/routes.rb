@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
+  get 'games/new'
+  get 'games/create'
+  get 'games/show'
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -23,12 +26,12 @@ Rails.application.routes.draw do
 
   # Create game session
   resources :games, only: [:new, :create, :show] do
-      resource :battle
+      resources :battle
 
       # create a team
 
       resources :teams, only: [:new, :create, :show, :edit] do
-        resources :selected_pokemon # maybe [:show]
+        resources :selected_pokemon
       end
 
       # battle log
@@ -40,3 +43,6 @@ Rails.application.routes.draw do
   end
 
 end
+
+
+# Test commment

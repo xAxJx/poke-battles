@@ -14,6 +14,20 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_31_033313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "moves", force: :cascade do |t|
+    t.integer "move_id"
+    t.string "name"
+    t.string "move_type"
+    t.integer "power"
+    t.integer "accuracy"
+    t.string "damage_class"
+    t.text "description"
+    t.integer "effect_chance"
+    t.text "effect"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "pokemons", force: :cascade do |t|
     t.text "name"
     t.integer "number"
