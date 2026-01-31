@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'games/new'
+  get 'games/create'
+  get 'games/show'
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -27,7 +30,7 @@ Rails.application.routes.draw do
       # create a team
 
       resources :teams, only: [:new, :create, :show, :edit] do
-        resources :selected_pokemon # maybe [:show]
+        resources :selected_pokemon
       end
 
       # battle log
@@ -39,3 +42,6 @@ Rails.application.routes.draw do
   end
 
 end
+
+
+# Test commment
