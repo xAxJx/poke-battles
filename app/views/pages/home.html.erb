@@ -1,6 +1,9 @@
 <h1>Pokebattles home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<p>Welcome to Poke Battles </p>
 
 <%= link_to "Pokemon List", pokemons_path %>
 
-<p> <%= link_to "Move List", moves_path %>
+<%= link_to "Move List", moves_path %>
+
+
+<%= link_to "Start Game", games_path, data: { turbo_method: :post }%>

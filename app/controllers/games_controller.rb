@@ -9,7 +9,8 @@ class GamesController < ApplicationController
 
   # create new game
   def create
-    @game = Game.new(game_params)
+
+    @game = Game.new
     @game.user = current_user
     @game.status ||= "setup"  # Make sure the game starts in "setup" state
 
@@ -29,7 +30,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
-  def game_params
-    params.fetch(:game, {}).permit(:status)
-  end
+  # def game_params
+  #   params.fetch(:game, {}).permit(:status)
+  # end
 end

@@ -1,4 +1,5 @@
 class PokemonsController < ApplicationController
+  skip_before_action:authenticate_user!, only: [:index, :search]
   def index
     @pokemons = Pokemon.all.order(params[:sort])
 
