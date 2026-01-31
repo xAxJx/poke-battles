@@ -25,7 +25,7 @@ require 'open-uri'
 
 puts "Populating Pokemon"
 
-(1..1).each do |number|
+(1..25).each do |number|
 
 poke_url = "https://pokeapi.co/api/v2/pokemon/#{number}"
 
