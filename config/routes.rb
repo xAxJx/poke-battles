@@ -16,6 +16,31 @@ Rails.application.routes.draw do
 
   get "pokemons/search", to: "pokemons#search"
 
+  resources :moves, only[:index] do
+
+  end
+
+  resources :pokemons, only: [:index, :show] do
+  end
+
+  # Create game session
+  resources :games, only: [:new, :create, :show] do
+      resource :battle
+
+      # create a team
+
+      resources :teams, only: [:new, :create, :show, :edit] do
+        resources :selected_pokemon # maybe [:show]
+      end
+
+      # battle log
+
+      resources :actions, only: [:new, :create] do
+
+      end
+
+  end
+
 end
 
 
