@@ -46,4 +46,22 @@ class TeamsController < ApplicationController
     # No logic here yet just the form
   end
 
+  private
+
+  # Finds the game from the URL
+  # Example: /games/5/teams/new → params[:game_id] = 5
+  def set_game
+    @game = Game.find(params[:game_id])
+  end
+
+  # Finds the team, but scoped to the current game
+  # This avoids someone accessing a team from another game
+  def set_team
+    @team = @game.teams.find(params[:id])
+  end
+
+  # only allow what the form is supposed to send
+  def team_params
+    params.require(:team).permit(:opponent)
+  end
 end
