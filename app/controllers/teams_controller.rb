@@ -49,7 +49,7 @@ class TeamsController < ApplicationController
   private
 
   # Finds the game from the URL
-  # Example: /games/5/teams/new → params[:game_id] = 5
+
   def set_game
     @game = Game.find(params[:game_id])
   end
