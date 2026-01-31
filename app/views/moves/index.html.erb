@@ -1,0 +1,42 @@
+
+<table>
+  <tr>
+    <td> ID # </td>
+    <td> Move </td>
+    <td> Type </td>
+    <td> Power </td>
+    <td> Accuracy </td>
+    <td> Class </td>
+    <td> Effect </td>
+    <td> Effect Chance </td>
+    <td>Select</td>
+  </tr>
+
+    <tr>
+    <td>0</td>
+    <td>Dummy</td>
+    <td>normal</td>
+    <td>9000</td>
+    <td>100</td>
+    <td>Physical</td>
+    <td></td>
+    <td>0</td>
+    <td>[+]</td>
+    </tr>
+
+    <%@moves.each do |move| %>
+    <tr>
+    <td><%= move.move_id %></td>
+    <td><%= move.name.capitalize %></td>
+    <td><%= move.move_type %></td>
+    <td><%= move.power %></td>
+    <td><%= move.accuracy %></td>
+    <td><%= move.damage_class %></td>
+    <td><%= move.effect %></td>
+    <td><%= move.effect_chance %></td>
+    <td>[+]</td>
+    </tr>
+    <% end %>
+</table>
+
+</table>
