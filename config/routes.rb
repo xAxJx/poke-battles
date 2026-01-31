@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   get "pokemons/search", to: "pokemons#search"
 
-  resources :moves, only[:index] do
+  resources :moves, only: [:index] do
 
   end
 
