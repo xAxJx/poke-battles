@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_31_033313) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_31_055932) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "actions", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "pokemon_id", null: false
+    t.bigint "move_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_actions_on_game_id"
+    t.index ["move_id"], name: "index_actions_on_move_id"
+    t.index ["pokemon_id"], name: "index_actions_on_pokemon_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string "status"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_games_on_user_id"
+  end
 
   create_table "moves", force: :cascade do |t|
     t.integer "move_id"
@@ -62,4 +81,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_31_033313) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "actions", "games"
+  add_foreign_key "actions", "moves"
+  add_foreign_key "actions", "pokemons"
+  add_foreign_key "games", "users"
 end
