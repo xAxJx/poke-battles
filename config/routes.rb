@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
-  get 'teams/new'
-  get 'teams/create'
-  get 'teams/show'
-  get 'teams/edit'
-  get 'games/new'
-  get 'games/create'
-  get 'games/show'
+
+  devise_for :users
+
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
