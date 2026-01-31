@@ -1,3 +1,3 @@
 class Pokemon < ApplicationRecord
-  has many :selected_pokemon
+  has_many :selected_pokemon
 end
