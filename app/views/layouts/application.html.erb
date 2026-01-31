@@ -11,6 +11,10 @@
   </head>
 
   <body>
+    <div class="top-bar">
+      <h2> <%= link_to "Home", root_path %> | <%= link_to "Pokemon List", pokemons_path %> | <%= link_to "Move List", moves_path %> </h2>
+    </div>
     <%= yield %>
+    <%= render "shared/navbar" %>
   </body>
 </html>
