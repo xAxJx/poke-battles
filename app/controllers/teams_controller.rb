@@ -21,7 +21,7 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
 
     # Manually attach the team to the current game
-    # does game_id comes from the URL or the form, my logic is that it comes from the url
+    # does game_id comes from the URL or the form, my logic is that it comes from the url ???
     @team.game = @game
 
     if @team.save
