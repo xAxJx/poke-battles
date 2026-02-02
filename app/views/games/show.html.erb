@@ -1,2 +1,22 @@
 <h1>Games#show</h1>
 <p>Find me in app/views/games/show.html.erb</p>
+<p> Game ID: <%= @game.id %> </p>
+
+<%= link_to "Create Team", game_teams_path(@game), data: { turbo_method: :post }%>
+
+<div class="selected-team">
+  <ul>
+
+<p> Team </p>
+<% @pokemons.each do |poke| %>
+<% if poke[:id] == @selected.last.pokemon_id %>
+<li><%= poke[:number]%> <%= poke[:name]%> <%= poke[:type1]%> <img src="<%= poke[:picture] %>"> </li>
+<%end%>
+<% end %>
+
+
+</ul>
+<%= @selected.last.pokemon_id %> <%= @selected.last.team_id %>
+<img src="<%=@pokemons.last.picture%>">
+<%= test = @pokemons.where(id: 791)%>
+<div>

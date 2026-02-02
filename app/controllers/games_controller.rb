@@ -22,6 +22,8 @@ class GamesController < ApplicationController
   end
 
   def show
+    @selected = SelectedPokemon.all
+    @pokemons = Pokemon.all
   end
 
   private

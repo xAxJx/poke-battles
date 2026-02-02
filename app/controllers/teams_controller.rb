@@ -18,11 +18,13 @@ class TeamsController < ApplicationController
   # Actually create the team in the DB
   def create
     # Build a team from the form params
-    @team = Team.new(team_params)
+    @team = Team.new #(team_params) doesn't work
 
     # Manually attach the team to the current game
     # does game_id comes from the URL or the form, my logic is that it comes from the url ???
     @team.game = @game
+    # set the opponent status to "player"
+    @team.opponent = "player"
 
     if @team.save
       # If everything is OK, go to the team page
@@ -38,6 +40,8 @@ class TeamsController < ApplicationController
   # Just displays the team
   def show
     # @team is already set by set_team
+    @pokemons = Pokemon.all
+    @selected_pokemon = SelectedPokemon.all
   end
 
   # GET /games/:game_id/teams/:id/edit
@@ -61,7 +65,7 @@ class TeamsController < ApplicationController
   end
 
   # only allow what the form is supposed to send
-  def team_params
-    params.require(:team).permit(:opponent)
-  end
+  # def team_params
+  #   params.require(:team).permit(:opponent)
+  # end
 end
