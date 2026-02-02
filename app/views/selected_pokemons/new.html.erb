@@ -1,0 +1,52 @@
+<h1> Pokemon Details </h1>
+
+Pokemon: <%= @selected_pokemon.pokemon_id%>
+
+Selected Pokemon: <%= @selected_pokemon.id%>
+
+Team: <%= @team.id%>
+
+Game: <%= @game.id%>
+
+<table>
+  <tr>
+    <td><%= link_to "Number", :sort => "id" %></td>
+    <td>Picture</td>
+    <td><%= link_to "Name", :sort => "name" %></td>
+    <td> <%= link_to "Type", :sort => "type1" %> </td>
+    <td><%= link_to "Type", :sort => "type2" %> </td>
+    <td><%= link_to "HP", :sort => "hp_max", :direction => "desc" %></td>
+    <td><%= link_to "Attack", :sort => "attack", :direction => "desc" %></td>
+    <td><%= link_to "Defense", :sort => "defense", :direction => "desc" %></td>
+    <td><%= link_to "Special Atk", :sort => "sp_attack", :direction => "desc"  %></td>
+    <td><%= link_to "Special Def", :sort => "sp_defense", :direction => "desc"  %></td>
+    <td><%= link_to "Speed", :sort => "speed", :direction => "desc"  %></td>
+    <td>Select</td>
+  </tr>
+
+    <tr>
+    <% if @pokemon%>
+    <td><%= @pokemon.number %></td>
+    <td><%= image_tag "#{@pokemon.picture}"%> </td>
+    <td><%= @pokemon.name.capitalize %></td>
+    <td><%= @pokemon.type1 %></td>
+    <td><%= @pokemon.type2 %></td>
+    <td><%= @pokemon.hp_max %></td>
+    <td><%= @pokemon.attack %></td>
+    <td><%= @pokemon.defense %></td>
+    <td><%= @pokemon.sp_attack %></td>
+    <td><%= @pokemon.sp_defense %></td>
+    <td><%= @pokemon.speed %></td>
+    <% end %>
+    </tr>
+</table>
+
+<%= simple_form_for([@game, @team, @selected_pokemon]) do |f|%>
+  <%= f.input :move1%>
+   <%= f.input :move2%>
+    <%= f.input :move3%>
+     <%= f.input :move4%>
+     <%= f.hidden_field :team_id, :value => @team.id%>
+     <%= f.hidden_field :pokemon_id, :value => @selected_pokemon.id%>
+  <%= f.submit %>
+<% end %>
