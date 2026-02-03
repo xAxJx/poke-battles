@@ -1,0 +1,68 @@
+.gb-moves .gb-list-header,
+.gb-moves .move-row summary {
+  grid-template-columns: 52px 1.4fr 0.9fr 0.9fr 52px 52px 46px;
+}
+
+.gb-moves .move-row {
+  border-bottom: 1px solid rgba(31, 27, 20, 0.2);
+}
+
+.gb-moves .move-row:last-child {
+  border-bottom: none;
+}
+
+.gb-moves summary {
+  display: grid;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.6rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
+  cursor: pointer;
+}
+
+.gb-moves summary::-webkit-details-marker {
+  display: none;
+}
+
+.gb-moves summary::marker {
+  display: none;
+}
+
+.gb-moves .move-details {
+  padding: 0.5rem 0.85rem 0.75rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
+  border-top: 1px dashed rgba(31, 27, 20, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.gb-moves .move-row[open] summary {
+  background: rgba(244, 228, 91, 0.35);
+}
+
+@media (max-width: 900px) {
+  .gb-moves .gb-list-header,
+  .gb-moves .move-row summary {
+    grid-template-columns: 52px 1.4fr 0.9fr 52px 46px;
+  }
+
+  .gb-moves .col-class,
+  .gb-moves .col-stat:nth-of-type(2) {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .gb-moves .gb-list-header,
+  .gb-moves .move-row summary {
+    grid-template-columns: 48px 1.4fr 0.9fr 46px;
+  }
+
+  .gb-moves .col-class,
+  .gb-moves .col-stat {
+    display: none;
+  }
+}
