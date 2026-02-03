@@ -15,8 +15,9 @@
      <td> <%= selected[:move2] %>  </td>
      <td> <%= selected[:move3] %>  </td>
      <td> <%= selected[:move4] %> </td>
-     <td> <button> [ - ] </button> </td>
-     <td> <button> Edit </button> </td>
+     <td> <button> [ - ]
+      </button> </td>
+     <td> <button> <%= link_to "Edit", edit_game_team_selected_pokemon_path(@game, @team, selected) %> </button> </td>
   </tr>
   <% end %>
 <%end%>
