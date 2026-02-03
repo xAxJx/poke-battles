@@ -9,7 +9,7 @@
 #   end
 #
 puts "Cleaning database"
-# Pokemon.destroy_all
+Pokemon.destroy_all
 
 puts "Accessing API"
 
@@ -24,8 +24,7 @@ require 'open-uri'
 # puts hash["results"]
 
 puts "Populating Pokemon"
-
-(1..25).each do |number|
+(1..151).each do |number|
 
 poke_url = "https://pokeapi.co/api/v2/pokemon/#{number}"
 
@@ -131,3 +130,12 @@ puts "Populating move list"
   end
 
 puts "Added #{Move.count} moves.";
+
+# Seed test pokemon
+dummyuser = User.first
+dummygame = Game.create!(user_id: dummyuser.id)
+dummyteam = Team.create!(game_id: dummygame.id, opponent: "dummy")
+dummypoke = SelectedPokemon.create!(pokemon_id: Pokemon.last.id, team_id: dummyteam.id, move1: "thunder", move2: "blizard", move3: "earthquake", move4: "flamethrower")
+dummypoke.save
+
+puts "Seeded dummies"

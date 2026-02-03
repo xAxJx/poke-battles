@@ -19,6 +19,7 @@
         <div class="team-panel">
           <h2 class="panel-title">Your Team</h2>
 
+<<<<<<< HEAD
           <% if selected_pokemons.any? %>
             <div class="team-list">
               <% selected_pokemons.each do |selection| %>
@@ -48,6 +49,16 @@
             <p class="empty-state">No Pokémon selected yet.</p>
           <% end %>
         </div>
+=======
+<p> Team </p>
+<% if @selected %>
+  <% @pokemons.each do |poke| %>
+    <% if poke[:id] == @selected.last.pokemon_id %>
+    <li><%= poke[:number]%> <%= poke[:name]%> <%= poke[:type1]%> <img src="<%= poke[:picture] %>"> </li>
+    <%end%>
+<% end %>
+<% end %>
+>>>>>>> de9c747e618d2a37eb93a1e0865455c3db942828
 
         <div class="game-actions">
           <% if team.present? %>
