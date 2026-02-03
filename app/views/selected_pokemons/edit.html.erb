@@ -1,0 +1,52 @@
+<h1> Edit Pokemon </h1>
+
+Pokemon: <%= @selected_pokemon.pokemon_id%>
+
+Selected Pokemon: <%= @selected_pokemon.id%>
+
+<table>
+  <tr>
+    <td><%= link_to "Number", :sort => "id" %></td>
+    <td>Picture</td>
+    <td><%= link_to "Name", :sort => "name" %></td>
+    <td> <%= link_to "Type", :sort => "type1" %> </td>
+    <td><%= link_to "Type", :sort => "type2" %> </td>
+    <td><%= link_to "HP", :sort => "hp_max", :direction => "desc" %></td>
+    <td><%= link_to "Attack", :sort => "attack", :direction => "desc" %></td>
+    <td><%= link_to "Defense", :sort => "defense", :direction => "desc" %></td>
+    <td><%= link_to "Special Atk", :sort => "sp_attack", :direction => "desc"  %></td>
+    <td><%= link_to "Special Def", :sort => "sp_defense", :direction => "desc"  %></td>
+    <td><%= link_to "Speed", :sort => "speed", :direction => "desc"  %></td>
+    <td>Select</td>
+  </tr>
+
+    <tr>
+    <% if @selected_pokemon%>
+    <td><%= @selected_pokemon.pokemon.number %></td>
+    <td><%= image_tag "#{@selected_pokemon.pokemon.picture}"%> </td>
+    <td><%= @selected_pokemon.pokemon.name.capitalize %></td>
+    <td><%= @selected_pokemon.pokemon.type1 %></td>
+    <td><%= @selected_pokemon.pokemon.type2 %></td>
+    <td><%= @selected_pokemon.pokemon.hp_max %></td>
+    <td><%= @selected_pokemon.pokemon.attack %></td>
+    <td><%= @selected_pokemon.pokemon.defense %></td>
+    <td><%= @selected_pokemon.pokemon.sp_attack %></td>
+    <td><%= @selected_pokemon.pokemon.sp_defense %></td>
+    <td><%= @selected_pokemon.pokemon.speed %></td>
+    <% end %>
+    </tr>
+</table>
+
+<%= form_with model: [@game, @team, @selected_pokemon] do |f|%>
+<%=f.label :move1%>
+<%=f.text_field :move1%>
+<%=f.label :move2%>
+<%=f.text_field :move2%>
+<%=f.label :move3%>
+<%=f.text_field :move3%>
+<%=f.label :move4%>
+<%=f.text_field :move4%>
+<%=f.submit "Update moves"%>
+<%end%>
+
+<%= render "shared/teamdisplay", selected_pokemon: @selected_all, team: @team %>
