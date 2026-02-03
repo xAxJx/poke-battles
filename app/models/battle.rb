@@ -3,6 +3,6 @@ class Battle < ApplicationRecord
   validates :game, presence: true
 
   has_many :actions, dependent: :destroy
-  has_many :pokemons, -> { distinct }, through: :actions
-  has_many :moves, -> { distinct }, through: :actions
+  has_many :selected_pokemons, through: :actions
+  has_many :learned_moves, through: :selected_pokemons
 end
