@@ -25,22 +25,16 @@ Rails.application.routes.draw do
 
   # Create game session
   resources :games, only: [:new, :create, :show] do
-      resources :battles
-
+      resources :battles do
+        resources :actions, only: [:create] do
+      end
+    end
+  end
       # create a team
 
-      resources :teams, only: [:new, :create, :show, :edit] do
-        resources :selected_pokemons
-      end
-
-      # battle log
-
-      resources :actions, only: [:new, :create] do
-
-      end
-
+  resources :teams, only: [:new, :create, :show, :edit] do
+    resources :selected_pokemons
   end
-
 end
 
 
