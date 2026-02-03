@@ -8,10 +8,12 @@
   <ul>
 
 <p> Team </p>
-<% @pokemons.each do |poke| %>
-<% if poke[:id] == @selected.last.pokemon_id %>
-<li><%= poke[:number]%> <%= poke[:name]%> <%= poke[:type1]%> <img src="<%= poke[:picture] %>"> </li>
-<%end%>
+<% if @selected %>
+  <% @pokemons.each do |poke| %>
+    <% if poke[:id] == @selected.last.pokemon_id %>
+    <li><%= poke[:number]%> <%= poke[:name]%> <%= poke[:type1]%> <img src="<%= poke[:picture] %>"> </li>
+    <%end%>
+<% end %>
 <% end %>
 
 
