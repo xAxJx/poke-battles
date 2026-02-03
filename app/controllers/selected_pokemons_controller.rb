@@ -1,5 +1,6 @@
 class SelectedPokemonsController < ApplicationController
   def new
+    @selected_all = SelectedPokemon.all
     @selected_pokemon = SelectedPokemon.new
     @selected_pokemon.pokemon_id = params[:pokemon_id]
     @pokemon_list = Pokemon.all

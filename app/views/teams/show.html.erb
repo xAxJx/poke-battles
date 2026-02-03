@@ -1,18 +1,7 @@
 <h1>Teams#show</h1>
 <p>Find me in app/views/teams/show.html.erb</p>
 
-<p> Team </p>
-<ul>
-<% if @selected_pokemon %>
-<% @selected_pokemon.each do |selected| %>
-<li>
-  <% if selected%>
-    <%= selected[:pokemon_id] %> <%= selected[:move1] %>  <%= selected[:move2] %>  <%= selected[:move3] %>  <%= selected[:move4] %>
-  <% end %>
-</li>
-<%end%>
-<% end %>
-</ul>
+<%= render "shared/teamdisplay", selected_pokemon: @selected_pokemon, team: @team %>
 
 <p> Available Pokemon </p>
 <% @pokemons.each do |poke| %>

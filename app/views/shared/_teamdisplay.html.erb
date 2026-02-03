@@ -1,0 +1,25 @@
+<h3 style="text-align: center;"> My Team </h3>
+
+<div class="myteam">
+
+<table>
+<% if selected_pokemon %>
+<% selected_pokemon.each do |selected| %>
+  <% if selected[:team_id] == team.id%>
+  <tr>
+    <td> <%= selected[:team_id] %> </td>
+    <td> <%= selected[:pokemon_id] %> </td>
+    <td> <%= selected.pokemon[:name] %> </td>
+    <td> <img src="<%= selected.pokemon[:picture] %>"> </td>
+    <td><%= selected[:move1] %> </td>
+     <td> <%= selected[:move2] %>  </td>
+     <td> <%= selected[:move3] %>  </td>
+     <td> <%= selected[:move4] %> </td>
+     <td> <button> [ - ] </button> </td>
+     <td> <button> Edit </button> </td>
+  </tr>
+  <% end %>
+<%end%>
+<% end %>
+</table>
+</div>

@@ -1,3 +1,7 @@
+
+<%= render "shared/teamdisplay", selected_pokemon: @selected_all, team: @team %>
+
+
 <h1> Pokemon Details </h1>
 
 Pokemon: <%= @selected_pokemon.pokemon_id%>
@@ -47,6 +51,6 @@ Game: <%= @game.id%>
     <%= f.input :move3%>
      <%= f.input :move4%>
      <%= f.hidden_field :team_id, :value => @team.id%>
-     <%= f.hidden_field :pokemon_id, :value => @selected_pokemon.id%>
+     <%= f.hidden_field :pokemon_id, :value => @selected_pokemon.pokemon_id%>
   <%= f.submit %>
 <% end %>

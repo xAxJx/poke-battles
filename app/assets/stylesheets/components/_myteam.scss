@@ -1,0 +1,40 @@
+.myteam {
+
+  $background: lightgreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  table {
+    border: 0px;
+    padding: 5px;
+  }
+
+  tr {
+
+    border: solid 8px $background;
+    padding: 15px;
+    margin: 10px;
+    background: lightseagreen;
+  }
+
+  td {
+    padding-inline: 5px;
+    margin: 10px;
+  }
+
+  ul {
+  background: lightgreen;
+  padding: 10px;
+  margin: 5px;
+  display: block;
+}
+
+  ul li {
+    background: lightseagreen;
+    padding: 5px;
+    list-style-position: inside;
+    height: 90px;
+    margin: 5px;
+  }
+
+}
