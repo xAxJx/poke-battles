@@ -1,9 +1,48 @@
-<h1>Pokebattles home</h1>
-<p>Welcome to Poke Battles </p>
+<section class="landing" data-landing-audio data-confirm-url="<%= asset_path('confirm.mp3') %>" data-ambient-url="<%= asset_path('ambient.mp3') %>">
+  <div class="landing-shell">
+    <div class="landing-screen">
+      <div class="landing-header">
+        <p class="landing-brand">Game Boy</p>
+        <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false">
+          <span class="sound-icon" aria-hidden="true">🔊</span>
+          <span class="sound-label" data-sound-label>Sound Off</span>
+        </button>
+      </div>
 
-<%= link_to "Pokemon List", pokemons_path %>
+      <div class="landing-body">
+        <h1 class="landing-title">Pokebattles</h1>
+        <p class="landing-subtitle">Welcome to Poke Battles</p>
 
-<%= link_to "Move List", moves_path %>
+        <p class="press-start">▶ Press Start</p>
 
+        <div class="landing-actions">
+          <%= link_to "Pokemon List", pokemons_path, class: "menu-link" %>
+          <%= link_to "Move List", moves_path, class: "menu-link" %>
+          <%= link_to "Start Game", games_path, data: { turbo_method: :post, sound: "confirm" }, class: "start-button" %>
+        </div>
+      </div>
 
-<%= link_to "Start Game", games_path, data: { turbo_method: :post }%>
+      <div class="landing-footer">
+        <span>Battery</span>
+        <span class="battery-dot"></span>
+      </div>
+    </div>
+
+    <div class="landing-controls">
+      <div class="dpad">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="buttons">
+        <span class="btn-a">A</span>
+        <span class="btn-b">B</span>
+      </div>
+      <div class="start-select">
+        <span>Start</span>
+        <span>Select</span>
+      </div>
+    </div>
+  </div>
+</section>

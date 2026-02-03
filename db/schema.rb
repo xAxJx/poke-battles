@@ -65,7 +65,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_02_054150) do
     t.string "move4"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "moves"
   end
 
   create_table "selected_pokemons", force: :cascade do |t|
