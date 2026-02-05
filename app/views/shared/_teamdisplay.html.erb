@@ -15,7 +15,9 @@
      <td> <%= selected[:move2] %>  </td>
      <td> <%= selected[:move3] %>  </td>
      <td> <%= selected[:move4] %> </td>
-     <td> <button> [ - ]
+     <td> <button> <%= link_to "Remove", game_team_selected_pokemon_path(id: selected.id, team_id: selected.team_id),
+        data: { turbo_method: :delete }, turbo_confirm: "Are you sure you want to remove this Pokemon?", status: :see_other %> </button>
+
       </button> </td>
      <td> <button> <%= link_to "Edit", edit_game_team_selected_pokemon_path(@game, @team, selected) %> </button> </td>
   </tr>

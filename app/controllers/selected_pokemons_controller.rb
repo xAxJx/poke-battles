@@ -26,6 +26,8 @@ class SelectedPokemonsController < ApplicationController
   end
   def show
     @selected_pokemon = SelectedPokemon.find(params[:id])
+    @team = Team.find(params[:team_id])
+    @game = Game.find(params[:game_id])
   end
 
   def edit
@@ -47,8 +49,10 @@ class SelectedPokemonsController < ApplicationController
   def destroy
     @target_pokemon = SelectedPokemon.find(params[:id])
     @target_pokemon.destroy
+    @team = Team.find(params[:team_id])
+    @game = Game.find(params[:game_id])
 
-    redirect_to game_team_path, status: :see_other
+    redirect_to game_team_path(@game, @team), notice: "Pokemon removed", status: :see_other
   end
 
 
