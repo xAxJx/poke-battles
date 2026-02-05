@@ -11,10 +11,10 @@
     <td> <%= selected[:pokemon_id] %> </td>
     <td> <%= selected.pokemon[:name] %> </td>
     <td> <img src="<%= selected.pokemon[:picture] %>"> </td>
-    <td><%= selected[:move1] %> </td>
-     <td> <%= selected[:move2] %>  </td>
-     <td> <%= selected[:move3] %>  </td>
-     <td> <%= selected[:move4] %> </td>
+    <td> <% if selected[:move1] != "" %> <%= Move.find(selected[:move1]).name %> <% end %> </td>
+     <td> <% if selected[:move2] != "" %> <%= Move.find(selected[:move2]).name %> <% end %> </td>
+     <td> <% if selected[:move3] != "" %> <%= Move.find(selected[:move3]).name %> <% end %> </td>
+     <td> <% if selected[:move4] != "" %> <%= Move.find(selected[:move4]).name %> <% end %> </td>
      <td> <button> <%= link_to "Remove", game_team_selected_pokemon_path(id: selected.id, team_id: selected.team_id),
         data: { turbo_method: :delete }, turbo_confirm: "Are you sure you want to remove this Pokemon?", status: :see_other %> </button>
 
