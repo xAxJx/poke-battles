@@ -136,6 +136,11 @@
   font-size: 0.75rem;
 }
 
+.remove-link {
+  background: #f05d5e;
+  color: #fff7e4;
+}
+
 @media (max-width: 900px) {
   .setup-columns {
     grid-template-columns: 1fr;

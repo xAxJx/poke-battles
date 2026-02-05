@@ -27,6 +27,12 @@
   font-size: 0.7rem;
 }
 
+.panel-helper {
+  margin: -0.35rem 0 0.85rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
+}
+
 .team-list {
   display: grid;
   gap: 0.65rem;
@@ -43,6 +49,17 @@
   padding: 0.5rem 0.65rem;
   border: 2px solid #1f1b14;
   background: #e3dfc6;
+}
+
+.opponent-card .team-sprite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sprite-placeholder {
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.6rem;
 }
 
 .team-sprite img {
@@ -73,6 +90,26 @@
   display: grid;
   gap: 1rem;
   justify-items: center;
+}
+
+.battle-actions {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+}
+
+.battle-button.is-disabled {
+  background: #c7c1ab;
+  color: #6f6a5a;
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.battle-helper {
+  margin: 0;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
 }
 
 .secondary-actions {

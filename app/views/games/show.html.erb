@@ -1,5 +1,7 @@
 <% team = @game.teams.first %>
 <% selected_pokemons = team ? SelectedPokemon.includes(:pokemon).where(team_id: team.id) : [] %>
+<% team_size = 3 %>
+<% selected_count = selected_pokemons.size %>
 
 <section class="landing" data-landing-audio data-confirm-url="<%= asset_path('confirm.mp3') %>" data-ambient-url="<%= asset_path('Walen - Gameboy (freetouse.com).mp3') %>">
   <div class="landing-shell">
@@ -48,18 +50,41 @@
             <p class="empty-state">No Pokémon selected yet.</p>
           <% end %>
         </div>
-<p> Team </p>
-<% if @selected %>
-  <% @pokemons.each do |poke| %>
-    <% if poke[:id] == @selected.last.pokemon_id %>
-    <li><%= poke[:number]%> <%= poke[:name]%> <%= poke[:type1]%> <img src="<%= poke[:picture] %>"> </li>
-    <%end%>
-<% end %>
-<% end %>
+
+        <div class="team-panel opponent-panel">
+          <h2 class="panel-title">Opponent Team</h2>
+          <p class="panel-helper">Opponent team will be selected automatically.</p>
+          <div class="team-list">
+            <% 3.times do %>
+              <div class="team-card opponent-card">
+                <div class="team-sprite">
+                  <span class="sprite-placeholder">???</span>
+                </div>
+                <div class="team-info">
+                  <p class="team-name">Unknown</p>
+                  <div class="team-types">
+                    <span class="type-badge type-grass">Grass</span>
+                    <span class="type-badge type-fire">Fire</span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="battle-actions">
+          <% if selected_count == team_size %>
+            <%# TODO: wire to battle route later %>
+            <%= link_to "Start Battle", "#", class: "start-button battle-button", data: { sound: "confirm" } %>
+          <% else %>
+            <button type="button" class="start-button battle-button is-disabled" disabled>Start Battle</button>
+            <p class="battle-helper">Select 3 Pok&#233;mon to start.</p>
+          <% end %>
+        </div>
 
         <div class="game-actions">
           <% if team.present? %>
-            <%= link_to "Edit Team", edit_game_team_path(@game, team), class: "start-button" %>
+            <%= link_to "Edit Team", game_team_path(@game, team), class: "start-button" %>
           <% else %>
             <%= link_to "Create Team", game_teams_path(@game), data: { turbo_method: :post }, class: "start-button" %>
           <% end %>

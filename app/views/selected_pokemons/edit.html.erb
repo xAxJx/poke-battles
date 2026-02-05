@@ -1,52 +1,113 @@
-<h1> Edit Pokemon </h1>
+<section class="landing selected-pokemon-setup" data-landing-audio data-confirm-url="<%= asset_path('confirm.mp3') %>" data-ambient-url="<%= asset_path('Walen - Gameboy (freetouse.com).mp3') %>">
+  <div class="landing-shell">
+    <div class="landing-screen">
+      <div class="screen-header">
+        <p class="screen-title">Pokemon Setup</p>
+        <div class="screen-meta">
+          <span class="game-id">G:<%= @game.id %> T:<%= @team.id %></span>
+          <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false">
+            <span class="sound-icon" aria-hidden="true">SND</span>
+            <span class="sound-label" data-sound-label>Sound Off</span>
+          </button>
+        </div>
+      </div>
 
-Pokemon: <%= @selected_pokemon.pokemon_id%>
+      <div class="screen-body pokemon-setup">
+        <%= form_with model: [@game, @team, @selected_pokemon], html: { class: "pokemon-setup-form" } do |f| %>
+          <div class="setup-columns">
+            <div class="team-panel pokemon-card">
+              <h2 class="panel-title">Pokemon</h2>
+              <% if @selected_pokemon&.pokemon %>
+                <% pokemon = @selected_pokemon.pokemon %>
+                <div class="pokemon-card-body">
+                  <div class="pokemon-sprite">
+                    <% if pokemon.picture.present? %>
+                      <%= image_tag pokemon.picture, alt: pokemon.name %>
+                    <% end %>
+                  </div>
+                  <div class="pokemon-meta">
+                    <p class="pokemon-name"><%= pokemon.name.capitalize %></p>
+                    <p class="pokemon-number">No. <%= pokemon.number %></p>
+                    <div class="team-types">
+                      <% if pokemon.type1.present? %>
+                        <span class="type-badge type-<%= pokemon.type1.to_s.parameterize %>"><%= pokemon.type1 %></span>
+                      <% end %>
+                      <% if pokemon.type2.present? %>
+                        <span class="type-badge type-<%= pokemon.type2.to_s.parameterize %>"><%= pokemon.type2 %></span>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
 
-Selected Pokemon: <%= @selected_pokemon.id%>
+                <div class="pokemon-stats">
+                  <div class="stat-item">
+                    <span class="stat-label">HP</span>
+                    <span class="stat-value"><%= pokemon.hp_max %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">ATK</span>
+                    <span class="stat-value"><%= pokemon.attack %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">DEF</span>
+                    <span class="stat-value"><%= pokemon.defense %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">SPA</span>
+                    <span class="stat-value"><%= pokemon.sp_attack %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">SPD</span>
+                    <span class="stat-value"><%= pokemon.sp_defense %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">SPE</span>
+                    <span class="stat-value"><%= pokemon.speed %></span>
+                  </div>
+                </div>
+              <% else %>
+                <p class="empty-state">Pokemon data unavailable.</p>
+              <% end %>
+            </div>
 
-<table>
-  <tr>
-    <td><%= link_to "Number", :sort => "id" %></td>
-    <td>Picture</td>
-    <td><%= link_to "Name", :sort => "name" %></td>
-    <td> <%= link_to "Type", :sort => "type1" %> </td>
-    <td><%= link_to "Type", :sort => "type2" %> </td>
-    <td><%= link_to "HP", :sort => "hp_max", :direction => "desc" %></td>
-    <td><%= link_to "Attack", :sort => "attack", :direction => "desc" %></td>
-    <td><%= link_to "Defense", :sort => "defense", :direction => "desc" %></td>
-    <td><%= link_to "Special Atk", :sort => "sp_attack", :direction => "desc"  %></td>
-    <td><%= link_to "Special Def", :sort => "sp_defense", :direction => "desc"  %></td>
-    <td><%= link_to "Speed", :sort => "speed", :direction => "desc"  %></td>
-    <td>Select</td>
-  </tr>
+            <div class="team-panel move-panel">
+              <h2 class="panel-title">Move Set</h2>
+              <p class="panel-subtitle">Pick 4 moves to battle.</p>
+              <div class="move-fields">
+                <div class="move-row">
+                  <%= f.label :move1, "Move 1", class: "move-label" %>
+                  <%= f.collection_select(:move1, @moves, :id, :name, { prompt: "Select move", selected: @selected_pokemon.move1 }, { class: "move-select" }) %>
+                </div>
+                <div class="move-row">
+                  <%= f.label :move2, "Move 2", class: "move-label" %>
+                  <%= f.collection_select(:move2, @moves, :id, :name, { prompt: "Select move", selected: @selected_pokemon.move2 }, { class: "move-select" }) %>
+                </div>
+                <div class="move-row">
+                  <%= f.label :move3, "Move 3", class: "move-label" %>
+                  <%= f.collection_select(:move3, @moves, :id, :name, { prompt: "Select move", selected: @selected_pokemon.move3 }, { class: "move-select" }) %>
+                </div>
+                <div class="move-row">
+                  <%= f.label :move4, "Move 4", class: "move-label" %>
+                  <%= f.collection_select(:move4, @moves, :id, :name, { prompt: "Select move", selected: @selected_pokemon.move4 }, { class: "move-select" }) %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <tr>
-    <% if @selected_pokemon%>
-    <td><%= @selected_pokemon.pokemon.number %></td>
-    <td><%= image_tag "#{@selected_pokemon.pokemon.picture}"%> </td>
-    <td><%= @selected_pokemon.pokemon.name.capitalize %></td>
-    <td><%= @selected_pokemon.pokemon.type1 %></td>
-    <td><%= @selected_pokemon.pokemon.type2 %></td>
-    <td><%= @selected_pokemon.pokemon.hp_max %></td>
-    <td><%= @selected_pokemon.pokemon.attack %></td>
-    <td><%= @selected_pokemon.pokemon.defense %></td>
-    <td><%= @selected_pokemon.pokemon.sp_attack %></td>
-    <td><%= @selected_pokemon.pokemon.sp_defense %></td>
-    <td><%= @selected_pokemon.pokemon.speed %></td>
-    <% end %>
-    </tr>
-</table>
-
-<%= form_with model: [@game, @team, @selected_pokemon] do |f|%>
-    <%= f.label :move1%>
-     <%= f.collection_select( :move1, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move1 }) %>
-    <%= f.label :move2%>
-     <%= f.collection_select( :move2, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move2 }) %>
-    <%= f.label :move3%>
-     <%= f.collection_select( :move3, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move3 }) %>
-     <%= f.label :move4%>
-     <%= f.collection_select( :move4, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move4 }) %>
-<%=f.submit "Update moves"%>
-<%end%>
-
-<%= render "shared/teamdisplay", selected_pokemon: @selected_all, team: @team %>
+          <div class="setup-actions">
+            <%= f.submit "UPDATE", class: "start-button confirm-button", data: { sound: "confirm" } %>
+            <div class="secondary-actions">
+              <%= link_to "Remove Pokemon", game_team_selected_pokemon_path(@game, @team, @selected_pokemon),
+                data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove this Pokemon?" },
+                class: "menu-link remove-link" %>
+              <%= link_to "Back to Team", game_team_path(@game, @team), class: "menu-link" %>
+              <%= link_to "Pokemon List", pokemons_path, class: "menu-link" %>
+              <%= link_to "Move List", moves_path, class: "menu-link" %>
+              <%= link_to "Home", root_path, class: "menu-link" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
