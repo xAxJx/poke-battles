@@ -1,0 +1,204 @@
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.7rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.screen-title {
+  margin: 0;
+}
+
+.gb-back {
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+  color: #1f1b14;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
+  padding: 0.35rem 0.6rem;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 #1f1b14;
+}
+
+.gb-back:hover {
+  text-decoration: underline;
+}
+
+.screen-body {
+  position: relative;
+  z-index: 1;
+}
+
+.gb-search {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.6rem;
+}
+
+.gb-search-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.gb-search-label {
+  margin: 0;
+}
+
+.gb-search-input {
+  flex: 1 1 180px;
+  padding: 0.45rem 0.6rem;
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+  color: #1f1b14;
+  font-family: inherit;
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.gb-search-button {
+  padding: 0.45rem 0.85rem;
+  border: 2px solid #1f1b14;
+  background: #f05d5e;
+  color: #fff7e4;
+  font-family: inherit;
+  font-size: 0.6rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #1f1b14;
+}
+
+.gb-list {
+  border: 2px solid #1f1b14;
+  background: rgba(227, 223, 198, 0.3);
+  box-shadow: inset 0 0 0 2px rgba(31, 27, 20, 0.1);
+}
+
+.gb-list-header,
+.gb-row {
+  display: grid;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.6rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
+}
+
+.gb-list-header {
+  position: sticky;
+  top: 0;
+  background: #9caf7a;
+  border-bottom: 2px solid #1f1b14;
+  z-index: 2;
+}
+
+.gb-list-body {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.gb-row {
+  border-bottom: 1px solid rgba(31, 27, 20, 0.2);
+}
+
+.gb-row:last-child {
+  border-bottom: none;
+}
+
+.gb-pokemons .gb-list-header,
+.gb-pokemons .gb-row {
+  grid-template-columns: 52px 54px 1.2fr 0.9fr 0.9fr repeat(6, 52px) 46px;
+}
+
+.col-sprite img {
+  width: 36px;
+  height: 36px;
+  image-rendering: pixelated;
+}
+
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.4rem;
+  border-radius: 999px;
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+}
+
+.type-grass { background: #7acb7a; }
+.type-poison { background: #b487d7; }
+.type-fire { background: #f08a5d; }
+.type-water { background: #6fa8dc; }
+.type-electric { background: #f4e45b; }
+.type-normal { background: #cfc6b8; }
+.type-flying { background: #9dc0e7; }
+.type-bug { background: #b7cc57; }
+.type-rock { background: #bda97e; }
+.type-ground { background: #c9a26a; }
+.type-ice { background: #8fd4da; }
+.type-psychic { background: #f28bb2; }
+.type-fighting { background: #d17b6b; }
+.type-ghost { background: #8c7bc7; }
+.type-dragon { background: #8a7fe0; }
+.type-dark { background: #6b5a52; color: #f4efe1; }
+.type-steel { background: #a6b1c2; }
+.type-fairy { background: #f3b5d0; }
+
+.gb-add {
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+  color: #1f1b14;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.7rem;
+  width: 26px;
+  height: 26px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #1f1b14;
+}
+
+.gb-list a {
+  color: #1f1b14;
+  text-decoration: none;
+}
+
+.gb-list a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .gb-pokemons .gb-list-header,
+  .gb-pokemons .gb-row {
+    grid-template-columns: 52px 54px 1.2fr 0.9fr 0.9fr 52px 52px 46px;
+  }
+
+  .gb-pokemons .col-stat:nth-of-type(5),
+  .gb-pokemons .col-stat:nth-of-type(6),
+  .gb-pokemons .col-stat:nth-of-type(7),
+  .gb-pokemons .col-stat:nth-of-type(8) {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .gb-search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gb-pokemons .gb-list-header,
+  .gb-pokemons .gb-row {
+    grid-template-columns: 44px 48px 1.2fr 0.9fr 0.9fr 46px;
+  }
+
+  .gb-pokemons .col-stat {
+    display: none;
+  }
+}

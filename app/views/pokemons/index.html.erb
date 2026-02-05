@@ -1,56 +1,79 @@
+<section class="landing">
+  <div class="landing-shell">
+    <div class="landing-screen">
+      <div class="screen-header">
+        <p class="screen-title">Pokémon List</p>
+        <%= link_to "← Back", root_path, class: "gb-back" %>
+      </div>
 
+      <div class="screen-body">
+        <%= form_with url: "pokemons/search", method: :get, class: "gb-search" do |f| %>
+          <%= f.label :search, "Search for Pokemon:", class: "gb-search-label" %>
+          <div class="gb-search-row">
+            <%= f.search_field :search, class: "gb-search-input" %>
+            <%= f.submit "Search", class: "gb-search-button" %>
+          </div>
+        <% end %>
 
-<%= form_with url: "pokemons/search", method: :get do |f|%>
-<%= f.label :search, "Search for Pokemon:" %>
-<%= f.search_field :search %>
-<%= f.submit "Search"%>
-<% end %>
+        <div class="gb-list gb-pokemons">
+          <div class="gb-list-header">
+            <span class="col-number"><%= link_to "No.", :sort => "id" %></span>
+            <span class="col-sprite">Pic</span>
+            <span class="col-name"><%= link_to "Name", :sort => "name" %></span>
+            <span class="col-type"><%= link_to "Type 1", :sort => "type1" %></span>
+            <span class="col-type"><%= link_to "Type 2", :sort => "type2" %></span>
+            <span class="col-stat"><%= link_to "HP", :sort => "hp_max", :direction => "desc" %></span>
+            <span class="col-stat"><%= link_to "Atk", :sort => "attack", :direction => "desc" %></span>
+            <span class="col-stat"><%= link_to "Def", :sort => "defense", :direction => "desc" %></span>
+            <span class="col-stat"><%= link_to "SpA", :sort => "sp_attack", :direction => "desc" %></span>
+            <span class="col-stat"><%= link_to "SpD", :sort => "sp_defense", :direction => "desc" %></span>
+            <span class="col-stat"><%= link_to "Spe", :sort => "speed", :direction => "desc" %></span>
+            <span class="col-action">Add</span>
+          </div>
 
-<table>
-  <tr>
-    <td><%= link_to "Number", :sort => "id" %></td>
-    <td>Picture</td>
-    <td><%= link_to "Name", :sort => "name" %></td>
-    <td> <%= link_to "Type", :sort => "type1" %> </td>
-    <td><%= link_to "Type", :sort => "type2" %> </td>
-    <td><%= link_to "HP", :sort => "hp_max", :direction => "desc" %></td>
-    <td><%= link_to "Attack", :sort => "attack", :direction => "desc" %></td>
-    <td><%= link_to "Defense", :sort => "defense", :direction => "desc" %></td>
-    <td><%= link_to "Special Atk", :sort => "sp_attack", :direction => "desc"  %></td>
-    <td><%= link_to "Special Def", :sort => "sp_defense", :direction => "desc"  %></td>
-    <td><%= link_to "Speed", :sort => "speed", :direction => "desc"  %></td>
-    <td>Select</td>
-  </tr>
+          <div class="gb-list-body">
+            <div class="gb-row">
+              <span class="col-number">1</span>
+              <span class="col-sprite"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Testasaur sprite"></span>
+              <span class="col-name">Testasaur</span>
+              <span class="col-type"><span class="type-badge type-grass">Grass</span></span>
+              <span class="col-type"><span class="type-badge type-poison">Poison</span></span>
+              <span class="col-stat">45</span>
+              <span class="col-stat">49</span>
+              <span class="col-stat">49</span>
+              <span class="col-stat">49</span>
+              <span class="col-stat">49</span>
+              <span class="col-stat">45</span>
+              <span class="col-action"><button class="gb-add" type="button">+</button></span>
+            </div>
 
-    <tr>
-    <td>1</td>
-    <td><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"></td>
-    <td>Testasaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td>45</td>
-    <td>49</td>
-    <td>49</td>
-    <td>49</td>
-    <td>49</td>
-    <td>45</td>
-    <td>[+]</td>
-    </tr>
-
-    <%@pokemons.each do |pokemon| %>
-    <tr>
-    <td><%= pokemon.number %></td>
-    <td><%= image_tag "#{pokemon.picture}"%> </td>
-    <td><%= pokemon.name.capitalize %></td>
-    <td><%= pokemon.type1 %></td>
-    <td><%= pokemon.type2 %></td>
-    <td><%= pokemon.hp_max %></td>
-    <td><%= pokemon.attack %></td>
-    <td><%= pokemon.defense %></td>
-    <td><%= pokemon.sp_attack %></td>
-    <td><%= pokemon.sp_defense %></td>
-    <td><%= pokemon.speed %></td>
-    <td>[+]</td>
-    </tr>
-    <% end %>
-</table>
+            <% @pokemons.each do |pokemon| %>
+              <div class="gb-row">
+                <span class="col-number"><%= pokemon.number %></span>
+                <span class="col-sprite"><%= image_tag pokemon.picture, alt: pokemon.name %></span>
+                <span class="col-name"><%= pokemon.name.capitalize %></span>
+                <span class="col-type">
+                  <% if pokemon.type1.present? %>
+                    <span class="type-badge type-<%= pokemon.type1.to_s.parameterize %>"><%= pokemon.type1 %></span>
+                  <% end %>
+                </span>
+                <span class="col-type">
+                  <% if pokemon.type2.present? %>
+                    <span class="type-badge type-<%= pokemon.type2.to_s.parameterize %>"><%= pokemon.type2 %></span>
+                  <% end %>
+                </span>
+                <span class="col-stat"><%= pokemon.hp_max %></span>
+                <span class="col-stat"><%= pokemon.attack %></span>
+                <span class="col-stat"><%= pokemon.defense %></span>
+                <span class="col-stat"><%= pokemon.sp_attack %></span>
+                <span class="col-stat"><%= pokemon.sp_defense %></span>
+                <span class="col-stat"><%= pokemon.speed %></span>
+                <span class="col-action"><button class="gb-add" type="button">+</button></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

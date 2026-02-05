@@ -1,0 +1,99 @@
+.game-setup {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.screen-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.game-id {
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
+}
+
+.team-panel {
+  border: 2px solid #1f1b14;
+  background: rgba(227, 223, 198, 0.3);
+  padding: 0.85rem;
+  box-shadow: inset 0 0 0 2px rgba(31, 27, 20, 0.1);
+}
+
+.panel-title {
+  margin: 0 0 0.75rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.7rem;
+}
+
+.team-list {
+  display: grid;
+  gap: 0.65rem;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.team-card {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0.65rem;
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+}
+
+.team-sprite img {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+}
+
+.team-name {
+  margin: 0 0 0.35rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.65rem;
+}
+
+.team-types {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.empty-state {
+  margin: 0;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.6rem;
+}
+
+.game-actions {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.secondary-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .screen-meta {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .team-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .team-sprite img {
+    margin: 0 auto;
+  }
+}
