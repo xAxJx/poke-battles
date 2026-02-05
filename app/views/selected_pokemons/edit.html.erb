@@ -41,11 +41,11 @@ Selected Pokemon: <%= @selected_pokemon.id%>
     <%= f.label :move1%>
      <%= f.collection_select( :move1, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move1 }) %>
     <%= f.label :move2%>
-     <%= f.collection_select( :move2, @moves, :id, :name, { selected: @selected_pokemon.move2 }) %>
+     <%= f.collection_select( :move2, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move2 }) %>
     <%= f.label :move3%>
-     <%= f.collection_select( :move3, @moves, :id, :name, { selected: @selected_pokemon.move3 }) %>
+     <%= f.collection_select( :move3, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move3 }) %>
      <%= f.label :move4%>
-     <%= f.collection_select( :move4, @moves, :id, :name, { selected: @selected_pokemon.move4 }) %>
+     <%= f.collection_select( :move4, @moves, :id, :name, { prompt: "Select a move", selected: @selected_pokemon.move4 }) %>
 <%=f.submit "Update moves"%>
 <%end%>
 
