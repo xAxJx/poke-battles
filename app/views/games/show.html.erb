@@ -22,6 +22,7 @@
           <% if selected_pokemons.any? %>
             <div class="team-list">
               <% selected_pokemons.each do |selection| %>
+              <% if selection.team.opponent == "opponent"%>
                 <% pokemon = selection.pokemon %>
                 <% next unless pokemon %>
                 <div class="team-card">
@@ -42,13 +43,29 @@
                     </div>
                   </div>
                 </div>
-              <% end %>
+                <% end %>
+                <% end %>
             </div>
           <% else %>
             <p class="empty-state">No Pokémon selected yet.</p>
           <% end %>
         </div>
-<p> Team </p>
+
+<p> Enemy Team </p>
+<%= %>
+
+<% if @selected %>
+<% @selected.each do |selected| %>
+  <% if selected[:opponent] == "opponent"%>
+    <tr>
+    <td> <%= selected[:team_id] %> </td>
+    <td> <%= selected[:pokemon_id] %> </td>
+    <td> <%= selected.pokemon[:name] %> </td>
+    <td> <img src="<%= selected.pokemon[:picture] %>"> </td>
+  <% end %>
+<% end %>
+<% end %>
+
 <% if @selected %>
   <% @pokemons.each do |poke| %>
     <% if poke[:id] == @selected.last.pokemon_id %>
