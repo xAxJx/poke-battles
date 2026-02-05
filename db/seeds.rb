@@ -131,11 +131,16 @@ puts "Populating move list"
 
 puts "Added #{Move.count} moves.";
 
-# Seed test pokemon
+# Seed dummy values
 dummyuser = User.first
-dummygame = Game.create!(user_id: dummyuser.id)
+dummygame = Game.create!(user_id: dummyuser.id, status: "dummy")
 dummyteam = Team.create!(game_id: dummygame.id, opponent: "dummy")
 dummypoke = SelectedPokemon.create!(pokemon_id: Pokemon.last.id, team_id: dummyteam.id, move1: "thunder", move2: "blizard", move3: "earthquake", move4: "flamethrower")
 dummypoke.save
 
 puts "Seeded dummies"
+
+# Seed opponent teams
+bossGame = Game.create(user_id: dummyuser.id, status: "boss" )
+red = Team.create!(game_id: 0, opponent: "boss")
+redPoke1 = SelectedPokemon.create!(pokemon_id: Pokemon.where(number: 3, team_id: red.id)
