@@ -1,0 +1,95 @@
+.pokemon-search .screen-header {
+  gap: 1rem;
+}
+
+.query-pill {
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+}
+
+.results-count {
+  margin: 0 0 0.85rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.6rem;
+}
+
+.search-results {
+  display: grid;
+  gap: 0.65rem;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.result-card {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.55rem 0.65rem;
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+}
+
+.result-sprite img {
+  width: 52px;
+  height: 52px;
+  image-rendering: pixelated;
+}
+
+.result-name {
+  margin: 0 0 0.25rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.65rem;
+}
+
+.result-types {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.35rem;
+}
+
+.result-stats {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.stat-chip {
+  border: 2px solid #1f1b14;
+  background: rgba(227, 223, 198, 0.55);
+  padding: 0.2rem 0.35rem;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+}
+
+.search-nav {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .result-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .result-sprite img {
+    margin: 0 auto;
+  }
+
+  .result-stats,
+  .result-types {
+    justify-content: center;
+  }
+}

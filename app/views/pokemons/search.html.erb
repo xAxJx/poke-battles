@@ -1,43 +1,67 @@
-<h2> Search Results for "<%=@search%>" </h2>
+<% query = @search.to_s.strip %>
+<% query_label = query.present? ? query.upcase : "ALL" %>
 
-<%= form_with url: "search", method: :get do |f|%>
-<%= f.label :search, "Search again:" %>
-<%= f.search_field :search %>
-<%= f.submit "Search"%>
-<% end %>
+<section class="landing pokemon-search">
+  <div class="landing-shell">
+    <div class="landing-screen">
+      <div class="screen-header">
+        <p class="screen-title">Pokemon Search</p>
+        <span class="query-pill">Query: <%= query_label %></span>
+      </div>
 
-<h3> Displaying <%=@pokemons.count%> pokemon found. </h3>
+      <div class="screen-body">
+        <%= form_with url: "search", method: :get, class: "gb-search" do |f| %>
+          <%= f.label :search, "Search again:", class: "gb-search-label" %>
+          <div class="gb-search-row">
+            <%= f.search_field :search, class: "gb-search-input", value: @search %>
+            <%= f.submit "Search", class: "gb-search-button" %>
+          </div>
+        <% end %>
 
-<table>
-  <tr>
-    <td>Number</td>
-    <td>Picture</td>
-    <td>Name</td>
-    <td>Type</td>
-    <td>Type</td>
-    <td>HP</td>
-    <td>Attack</td>
-    <td>Defense</td>
-    <td>Special Atk</td>
-    <td>Special Def</td>
-    <td>Speed</td>
-    <td>Select</td>
-  </tr>
+        <p class="results-count">Displaying <%= @pokemons.count %> pokemon found.</p>
 
-    <%@pokemons.each do |pokemon| %>
-    <tr>
-    <td><%= pokemon.number %></td>
-    <td><%= image_tag "#{pokemon.picture}"%> </td>
-    <td><%= pokemon.name.capitalize %></td>
-    <td><%= pokemon.type1 %></td>
-    <td><%= pokemon.type2 %></td>
-    <td><%= pokemon.hp_max %></td>
-    <td><%= pokemon.attack %></td>
-    <td><%= pokemon.defense %></td>
-    <td><%= pokemon.sp_attack %></td>
-    <td><%= pokemon.sp_defense %></td>
-    <td><%= pokemon.speed %></td>
-    <td>[+]</td>
-    </tr>
-    <% end %>
-</table>
+        <div class="search-results">
+          <% if @pokemons.any? %>
+            <% @pokemons.each do |pokemon| %>
+              <div class="result-card">
+                <div class="result-sprite">
+                  <%= image_tag pokemon.picture, alt: pokemon.name %>
+                </div>
+                <div class="result-info">
+                  <p class="result-name"><%= pokemon.name.capitalize %></p>
+                  <div class="result-types">
+                    <% if pokemon.type1.present? %>
+                      <span class="type-badge type-<%= pokemon.type1.to_s.parameterize %>"><%= pokemon.type1 %></span>
+                    <% end %>
+                    <% if pokemon.type2.present? %>
+                      <span class="type-badge type-<%= pokemon.type2.to_s.parameterize %>"><%= pokemon.type2 %></span>
+                    <% end %>
+                  </div>
+                  <div class="result-stats">
+                    <span class="stat-chip">HP <%= pokemon.hp_max %></span>
+                    <span class="stat-chip">ATK <%= pokemon.attack %></span>
+                    <span class="stat-chip">DEF <%= pokemon.defense %></span>
+                    <span class="stat-chip">SPD <%= pokemon.speed %></span>
+                  </div>
+                </div>
+                <div class="result-action">
+                  <button class="gb-add" type="button" aria-label="Select">
+                    +
+                  </button>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="empty-state">No pokemon found.</p>
+          <% end %>
+        </div>
+
+        <div class="search-nav">
+          <%= link_to "Back to Pokemon List", pokemons_path, class: "menu-link" %>
+          <%= link_to "Home", root_path, class: "menu-link" %>
+          <%= link_to "Move List", moves_path, class: "menu-link" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
