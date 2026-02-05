@@ -19,8 +19,13 @@ class SelectedPokemonsController < ApplicationController
     if @selected_pokemon.save
       redirect_to game_team_path(@game, @team)
     else
-      raise
-      render "new", status: :unprocessable_content # - but how do you pass the pokemon_id variable?
+      @pokemon_list = Pokemon.all
+      @pokemon = Pokemon.find(params[:pokemon_id])
+      @moves = Move.all
+      flash.now[:alert] = "Max team size is #{MAX_TEAM_SIZE} Pokemon."
+      render "new", status: :unprocessable_content
+      flash.now[:alert] = "Max team size is #{MAX_TEAM_SIZE} Pokemon."
+
       # new_game_team_selected_pokemon_path(@game, @team)
     end
 
