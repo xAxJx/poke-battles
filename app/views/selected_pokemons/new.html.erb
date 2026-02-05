@@ -1,5 +1,5 @@
 
-<%= render "shared/teamdisplay", selected_pokemon: @selected_all, team: @team %>
+<%= render "shared/teamdisplay", selected_pokemon: @selected_all, team: @team, move:@moves %>
 
 
 <h1> Pokemon Details </h1>
@@ -46,10 +46,14 @@ Game: <%= @game.id%>
 </table>
 
 <%= simple_form_for([@game, @team, @selected_pokemon]) do |f|%>
-  <%= f.input :move1%>
-   <%= f.input :move2%>
-    <%= f.input :move3%>
-     <%= f.input :move4%>
+    <%= f.label :move1%>
+     <%= f.collection_select( :move1, @moves, :id, :name, { prompt: "Select move"}) %>
+    <%= f.label :move2%>
+     <%= f.collection_select( :move2, @moves, :id, :name, { prompt: "Select move"}) %>
+    <%= f.label :move3%>
+     <%= f.collection_select( :move3, @moves, :id, :name, { prompt: "Select move"}) %>
+     <%= f.label :move4%>
+     <%= f.collection_select( :move4, @moves, :id, :name, { prompt: "Select move"}) %>
      <%= f.hidden_field :team_id, :value => @team.id%>
      <%= f.hidden_field :pokemon_id, :value => @selected_pokemon.pokemon_id%>
   <%= f.submit %>
