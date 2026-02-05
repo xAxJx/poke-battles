@@ -7,6 +7,7 @@ class SelectedPokemonsController < ApplicationController
     @pokemon = Pokemon.find(params[:pokemon_id])
     @team = Team.find(params[:team_id])
     @game = Game.find(params[:game_id])
+    @moves = Move.all
   end
 
   def create
@@ -26,6 +27,8 @@ class SelectedPokemonsController < ApplicationController
   end
   def show
     @selected_pokemon = SelectedPokemon.find(params[:id])
+    @team = Team.find(params[:team_id])
+    @game = Game.find(params[:game_id])
   end
 
   def edit
@@ -33,6 +36,7 @@ class SelectedPokemonsController < ApplicationController
     @selected_all = SelectedPokemon.all
     @game = Game.find(params[:game_id])
     @team = @selected_pokemon.team
+    @moves = Move.all
   end
 
   def update
@@ -47,8 +51,10 @@ class SelectedPokemonsController < ApplicationController
   def destroy
     @target_pokemon = SelectedPokemon.find(params[:id])
     @target_pokemon.destroy
+    @team = Team.find(params[:team_id])
+    @game = Game.find(params[:game_id])
 
-    redirect_to game_team_path, status: :see_other
+    redirect_to game_team_path(@game, @team), notice: "Pokemon removed", status: :see_other
   end
 
 
