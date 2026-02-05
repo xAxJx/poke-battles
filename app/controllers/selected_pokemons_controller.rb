@@ -7,6 +7,7 @@ class SelectedPokemonsController < ApplicationController
     @pokemon = Pokemon.find(params[:pokemon_id])
     @team = Team.find(params[:team_id])
     @game = Game.find(params[:game_id])
+    @move_list = Move.all
   end
 
   def create
@@ -35,6 +36,7 @@ class SelectedPokemonsController < ApplicationController
     @selected_all = SelectedPokemon.all
     @game = Game.find(params[:game_id])
     @team = @selected_pokemon.team
+    @move_list = Move.all
   end
 
   def update

@@ -50,6 +50,8 @@ Game: <%= @game.id%>
    <%= f.input :move2%>
     <%= f.input :move3%>
      <%= f.input :move4%>
+     <%f.label :move4%>
+     <%= f.collection_select( @selected_pokemon.move4, @move_list, :id, :name, { prompt: "Select move"}) %>
      <%= f.hidden_field :team_id, :value => @team.id%>
      <%= f.hidden_field :pokemon_id, :value => @selected_pokemon.pokemon_id%>
   <%= f.submit %>
