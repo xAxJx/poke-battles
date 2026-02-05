@@ -1,60 +1,112 @@
+<section class="landing selected-pokemon-setup" data-landing-audio data-confirm-url="<%= asset_path('confirm.mp3') %>" data-ambient-url="<%= asset_path('Walen - Gameboy (freetouse.com).mp3') %>">
+  <div class="landing-shell">
+    <div class="landing-screen">
+      <div class="screen-header">
+        <p class="screen-title">Pokemon Setup</p>
+        <div class="screen-meta">
+          <span class="game-id">G:<%= @game.id %> T:<%= @team.id %></span>
+          <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false">
+            <span class="sound-icon" aria-hidden="true">SND</span>
+            <span class="sound-label" data-sound-label>Sound Off</span>
+          </button>
+        </div>
+      </div>
 
-<%= render "shared/teamdisplay", selected_pokemon: @selected_all, team: @team, move:@moves %>
+      <div class="screen-body pokemon-setup">
+        <%= simple_form_for([@game, @team, @selected_pokemon], html: { class: "pokemon-setup-form" }) do |f| %>
+          <div class="setup-columns">
+            <div class="team-panel pokemon-card">
+              <h2 class="panel-title">Pokemon</h2>
+              <% if @pokemon %>
+                <div class="pokemon-card-body">
+                  <div class="pokemon-sprite">
+                    <% if @pokemon.picture.present? %>
+                      <%= image_tag @pokemon.picture, alt: @pokemon.name %>
+                    <% end %>
+                  </div>
+                  <div class="pokemon-meta">
+                    <p class="pokemon-name"><%= @pokemon.name.capitalize %></p>
+                    <p class="pokemon-number">No. <%= @pokemon.number %></p>
+                    <div class="team-types">
+                      <% if @pokemon.type1.present? %>
+                        <span class="type-badge type-<%= @pokemon.type1.to_s.parameterize %>"><%= @pokemon.type1 %></span>
+                      <% end %>
+                      <% if @pokemon.type2.present? %>
+                        <span class="type-badge type-<%= @pokemon.type2.to_s.parameterize %>"><%= @pokemon.type2 %></span>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
 
+                <div class="pokemon-stats">
+                  <div class="stat-item">
+                    <span class="stat-label">HP</span>
+                    <span class="stat-value"><%= @pokemon.hp_max %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">ATK</span>
+                    <span class="stat-value"><%= @pokemon.attack %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">DEF</span>
+                    <span class="stat-value"><%= @pokemon.defense %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">SPA</span>
+                    <span class="stat-value"><%= @pokemon.sp_attack %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">SPD</span>
+                    <span class="stat-value"><%= @pokemon.sp_defense %></span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">SPE</span>
+                    <span class="stat-value"><%= @pokemon.speed %></span>
+                  </div>
+                </div>
+              <% else %>
+                <p class="empty-state">Pokemon data unavailable.</p>
+              <% end %>
+            </div>
 
-<h1> Pokemon Details </h1>
+            <div class="team-panel move-panel">
+              <h2 class="panel-title">Move Set</h2>
+              <p class="panel-subtitle">Pick 4 moves to battle.</p>
+              <div class="move-fields">
+                <div class="move-row">
+                  <%= f.label :move1, "Move 1", class: "move-label" %>
+                  <%= f.collection_select(:move1, @moves, :id, :name, { prompt: "Select move" }, { class: "move-select" }) %>
+                </div>
+                <div class="move-row">
+                  <%= f.label :move2, "Move 2", class: "move-label" %>
+                  <%= f.collection_select(:move2, @moves, :id, :name, { prompt: "Select move" }, { class: "move-select" }) %>
+                </div>
+                <div class="move-row">
+                  <%= f.label :move3, "Move 3", class: "move-label" %>
+                  <%= f.collection_select(:move3, @moves, :id, :name, { prompt: "Select move" }, { class: "move-select" }) %>
+                </div>
+                <div class="move-row">
+                  <%= f.label :move4, "Move 4", class: "move-label" %>
+                  <%= f.collection_select(:move4, @moves, :id, :name, { prompt: "Select move" }, { class: "move-select" }) %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-Pokemon: <%= @selected_pokemon.pokemon_id%>
+          <div class="setup-actions">
+            <%= f.hidden_field :team_id, value: @team.id %>
+            <%= f.hidden_field :pokemon_id, value: @selected_pokemon.pokemon_id %>
 
-Selected Pokemon: <%= @selected_pokemon.id%>
-
-Team: <%= @team.id%>
-
-Game: <%= @game.id%>
-
-<table>
-  <tr>
-    <td><%= link_to "Number", :sort => "id" %></td>
-    <td>Picture</td>
-    <td><%= link_to "Name", :sort => "name" %></td>
-    <td> <%= link_to "Type", :sort => "type1" %> </td>
-    <td><%= link_to "Type", :sort => "type2" %> </td>
-    <td><%= link_to "HP", :sort => "hp_max", :direction => "desc" %></td>
-    <td><%= link_to "Attack", :sort => "attack", :direction => "desc" %></td>
-    <td><%= link_to "Defense", :sort => "defense", :direction => "desc" %></td>
-    <td><%= link_to "Special Atk", :sort => "sp_attack", :direction => "desc"  %></td>
-    <td><%= link_to "Special Def", :sort => "sp_defense", :direction => "desc"  %></td>
-    <td><%= link_to "Speed", :sort => "speed", :direction => "desc"  %></td>
-    <td>Select</td>
-  </tr>
-
-    <tr>
-    <% if @pokemon%>
-    <td><%= @pokemon.number %></td>
-    <td><%= image_tag "#{@pokemon.picture}"%> </td>
-    <td><%= @pokemon.name.capitalize %></td>
-    <td><%= @pokemon.type1 %></td>
-    <td><%= @pokemon.type2 %></td>
-    <td><%= @pokemon.hp_max %></td>
-    <td><%= @pokemon.attack %></td>
-    <td><%= @pokemon.defense %></td>
-    <td><%= @pokemon.sp_attack %></td>
-    <td><%= @pokemon.sp_defense %></td>
-    <td><%= @pokemon.speed %></td>
-    <% end %>
-    </tr>
-</table>
-
-<%= simple_form_for([@game, @team, @selected_pokemon]) do |f|%>
-    <%= f.label :move1%>
-     <%= f.collection_select( :move1, @moves, :id, :name, { prompt: "Select move"}) %>
-    <%= f.label :move2%>
-     <%= f.collection_select( :move2, @moves, :id, :name, { prompt: "Select move"}) %>
-    <%= f.label :move3%>
-     <%= f.collection_select( :move3, @moves, :id, :name, { prompt: "Select move"}) %>
-     <%= f.label :move4%>
-     <%= f.collection_select( :move4, @moves, :id, :name, { prompt: "Select move"}) %>
-     <%= f.hidden_field :team_id, :value => @team.id%>
-     <%= f.hidden_field :pokemon_id, :value => @selected_pokemon.pokemon_id%>
-  <%= f.submit %>
-<% end %>
+            <%= f.submit "CONFIRM", class: "start-button confirm-button", data: { sound: "confirm" } %>
+            <div class="secondary-actions">
+              <%= link_to "Back to Team", game_team_path(@game, @team), class: "menu-link" %>
+              <%= link_to "Pokemon List", pokemons_path, class: "menu-link" %>
+              <%= link_to "Move List", moves_path, class: "menu-link" %>
+              <%= link_to "Home", root_path, class: "menu-link" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
