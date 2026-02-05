@@ -1,0 +1,20 @@
+<h1>Battle <%= @battle.id %></h1>
+
+<p>
+  Player active:
+  <%= @player_active&.id || "None" %>
+  (HP: <%= @player_active&.hp_current || 0 %>)
+</p>
+
+<p>
+  Opponent active:
+  <%= @opponent_active&.id || "None" %>
+  (HP: <%= @opponent_active&.hp_current || 0 %>)
+</p>
+
+<h2>Recent Actions</h2>
+<ul>
+  <% @recent_actions.each do |action| %>
+    <li><%= action.id %></li>
+  <% end %>
+</ul>
