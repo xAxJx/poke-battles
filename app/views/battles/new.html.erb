@@ -1,4 +1,4 @@
-<% team = @game.teams.first %>
+<% team = @game.teams.last %>
 <% selected_pokemons = team ? SelectedPokemon.includes(:pokemon).where(team_id: team.id) : [] %>
 <% team_size = 3 %>
 <% selected_count = selected_pokemons.size %>
@@ -51,33 +51,30 @@
           <% end %>
         </div>
 
-        <% Team.all.each do |team| %>
-        <%= team.id %>  team + game <%= team.game_id %> <%= team.opponent %> <br>
-        <% end %>
+        <%# Retrieve opponent team %>
+        <% opponent_team = Team.where(game_id: @game.id, opponent: "opponent")[0]%>
+        <% opponent_pokes = SelectedPokemon.where(team_id: opponent_team.id) %>
 
-        <% opponent_team = Team.find_by(opponent: "opponent")%>
-        <% opponent_pokes = SelectedPokemon.where(team_id: opponent_team.id)%>
-        <% opponent_pokes.each do |pokemon|%>
-          <%= pokemon.id
-            opponent_team %>
-        <% end %>
-
+        <%# Display opponent team %>
         <div class="team-panel opponent-panel">
           <h2 class="panel-title">Opponent Team</h2>
           <p class="panel-helper">Opponent team will be selected automatically.</p>
           <% if Team.find_by(opponent: "opponent") %>
-          <p> Opponent found!!! </p>
           <div class="team-list">
-            <% 3.times do %>
+            <% opponent_pokes.each do |oppPokemon|%>
               <div class="team-card opponent-card">
                 <div class="team-sprite">
-                  <span class="sprite-placeholder">???</span>
+                  <span class="sprite-placeholder"> <img src="<%=oppPokemon.pokemon.picture%>"> </span>
                 </div>
                 <div class="team-info">
-                  <p class="team-name">Unknown</p>
+                  <p class="team-name"> <%=oppPokemon.pokemon.name%> </p>
                   <div class="team-types">
-                    <span class="type-badge type-grass">Grass</span>
-                    <span class="type-badge type-fire">Fire</span>
+                    <span class="type-badge type-<%= oppPokemon.pokemon.type1.to_s.parameterize %>"><%=oppPokemon.pokemon.type1%> </span>
+                    <% if oppPokemon.pokemon.type2 != "" %>
+                      <span class="type-badge type-<%= oppPokemon.pokemon.type2.to_s.parameterize %>"><%=oppPokemon.pokemon.type2%> </span>
+                    <%end%>
+                    <br>
+                    <p> <%= Move.find_by(id: oppPokemon.move1.to_i).name %> <%= Move.find_by(id: oppPokemon.move2.to_i).name %> <%= Move.find_by(id: oppPokemon.move3.to_i).name %> <%= Move.find_by(id: oppPokemon.move4.to_i).name %> </p>
                   </div>
                 </div>
               </div>
