@@ -1,4 +1,9 @@
 class BattlesController < ApplicationController
+  def new
+    @game = Game.find(params[:game_id])
+
+  end
+
   def show
     @battle = find_battle
 
