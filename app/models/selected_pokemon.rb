@@ -1,11 +1,12 @@
 class SelectedPokemon < ApplicationRecord
   belongs_to :team
   belongs_to :pokemon
+  has_many :learned_moves, dependent: :destroy
   has_many :moves, through: :learned_moves
 
   MAX_TEAM_SIZE = 3
 
-  validate :max_team_size
+  validate :max_team_size, on: :create
 
   def max_team_size
     if (SelectedPokemon.where(team_id: team_id).size >= MAX_TEAM_SIZE)
