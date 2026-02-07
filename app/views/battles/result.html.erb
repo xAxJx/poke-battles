@@ -1,0 +1,138 @@
+<% game = @battle.game %>
+<% player_ids = @player_team_selected.map(&:id) %>
+<% opponent_ids = @opponent_team_selected.map(&:id) %>
+<% battle_actions = Action.includes(:move, selected_pokemon: :pokemon)
+                          .where(battle_id: @battle.id).order(:created_at) %>
+<% player_actions_count = Action.where(battle_id: @battle.id, selected_pokemon_id: player_ids).count %>
+<% opponent_actions_count = Action.where(battle_id: @battle.id, selected_pokemon_id: opponent_ids).count %>
+<% winner_text = @winner == :player ? "YOU WIN" : "YOU LOSE" %>
+
+<section class="landing battle-result">
+  <div class="landing-shell">
+    <div class="landing-screen">
+      <div class="screen-header">
+        <p class="screen-title">Battle Result</p>
+        <div class="screen-meta">
+          <span class="game-id">ID: <%= @battle.id %></span>
+          <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false">
+            <span class="sound-icon" aria-hidden="true">🔊</span>
+            <span class="sound-label" data-sound-label>Sound Off</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="screen-body battle-result-body">
+        <div class="team-panel result-panel">
+          <h2 class="panel-title">Result</h2>
+          <p class="result-badge"><%= winner_text %></p>
+          <div class="result-stats">
+            <div class="stat-item">Player Actions: <%= player_actions_count %></div>
+            <div class="stat-item">Opponent Actions: <%= opponent_actions_count %></div>
+            <div class="stat-item">Total Turns: <%= player_actions_count %></div>
+          </div>
+        </div>
+
+        <div class="battle-columns result-grid">
+          <div class="team-panel battle-panel">
+            <h2 class="panel-title">Player Team</h2>
+            <div class="team-list">
+              <% @player_team_selected.each do |selection| %>
+                <% pokemon = selection.pokemon %>
+                <div class="team-card">
+                  <div class="team-sprite">
+                    <% if pokemon&.picture.present? %>
+                      <%= image_tag pokemon.picture, alt: pokemon.name %>
+                    <% else %>
+                      <span class="sprite-placeholder">???</span>
+                    <% end %>
+                  </div>
+                  <div class="team-info">
+                    <p class="team-name"><%= pokemon&.name&.capitalize || "Unknown" %></p>
+                    <div class="team-types">
+                      <% if pokemon&.type1.present? %>
+                        <span class="type-badge type-<%= pokemon.type1.to_s.parameterize %>"><%= pokemon.type1 %></span>
+                      <% end %>
+                      <% if pokemon&.type2.present? %>
+                        <span class="type-badge type-<%= pokemon.type2.to_s.parameterize %>"><%= pokemon.type2 %></span>
+                      <% end %>
+                    </div>
+                    <% max_hp = pokemon&.hp_max.to_i %>
+                    <% max_hp = selection.hp_current.to_i if max_hp <= 0 %>
+                    <p class="hp-text"><%= selection.hp_current.to_i %><%= max_hp.positive? ? "/#{max_hp}" : "" %></p>
+                    <% if selection.status.present? %>
+                      <span class="status-chip"><%= selection.status %></span>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="team-panel battle-panel">
+            <h2 class="panel-title">Opponent Team</h2>
+            <div class="team-list">
+              <% @opponent_team_selected.each do |selection| %>
+                <% pokemon = selection.pokemon %>
+                <div class="team-card opponent-card">
+                  <div class="team-sprite">
+                    <% if pokemon&.picture.present? %>
+                      <%= image_tag pokemon.picture, alt: pokemon.name %>
+                    <% else %>
+                      <span class="sprite-placeholder">???</span>
+                    <% end %>
+                  </div>
+                  <div class="team-info">
+                    <p class="team-name"><%= pokemon&.name&.capitalize || "Unknown" %></p>
+                    <div class="team-types">
+                      <% if pokemon&.type1.present? %>
+                        <span class="type-badge type-<%= pokemon.type1.to_s.parameterize %>"><%= pokemon.type1 %></span>
+                      <% end %>
+                      <% if pokemon&.type2.present? %>
+                        <span class="type-badge type-<%= pokemon.type2.to_s.parameterize %>"><%= pokemon.type2 %></span>
+                      <% end %>
+                    </div>
+                    <% max_hp = pokemon&.hp_max.to_i %>
+                    <% max_hp = selection.hp_current.to_i if max_hp <= 0 %>
+                    <p class="hp-text"><%= selection.hp_current.to_i %><%= max_hp.positive? ? "/#{max_hp}" : "" %></p>
+                    <% if selection.status.present? %>
+                      <span class="status-chip"><%= selection.status %></span>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="battle-log result-log">
+          <h2 class="panel-title">Final Battle Log</h2>
+          <div class="battle-log-body">
+            <% if battle_actions.any? %>
+              <ul class="battle-log-list">
+                <% battle_actions.each do |action| %>
+                  <% side = if player_ids.include?(action.selected_pokemon_id)
+                              "PLAYER"
+                            elsif opponent_ids.include?(action.selected_pokemon_id)
+                              "OPPONENT"
+                            else
+                              "UNKNOWN"
+                            end %>
+                  <% move_name = action.move&.name || "move_id: #{action.move_id}" %>
+                  <% pokemon_name = action.selected_pokemon&.pokemon&.name&.capitalize || "Unknown" %>
+                  <li>[<%= side %>] <%= pokemon_name %> used <%= move_name %></li>
+                <% end %>
+              </ul>
+            <% else %>
+              <p class="empty-state">No actions recorded.</p>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <%= link_to "Back to Game", game_path(game), class: "start-button" %>
+          <%= link_to "Home", root_path, class: "start-button" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

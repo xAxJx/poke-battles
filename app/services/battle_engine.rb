@@ -34,7 +34,7 @@ class BattleEngine
       move_id: player_move_id
     )
 
-    opponent_move_id = opponent_move_for(battle, opponent_active)
+    opponent_move_id = opponent_move_for(battle, opponent_active, player_selected_pokemon)
     opponent_action = Action.create!(
       battle: battle,
       selected_pokemon: opponent_active,
@@ -60,10 +60,23 @@ class BattleEngine
     }
   end
 
-  def self.opponent_move_for(_battle, opponent_selected_pokemon)
+  def self.opponent_move_for(_battle, opponent_selected_pokemon, player_selected_pokemon)
     # TODO: Replace with AI logic later
     learned_move_ids = learned_moves_for(opponent_selected_pokemon).pluck(:move_id)
     return learned_move_ids.sample if learned_move_ids.any?
+
+# Prompt the LLM to find what the suitable counter action is
+# Ask them to reply in a numeric value (ID)
+# Use that ID to create action
+  #   move_name = Move.find_by(move_name)
+  #   prompt = <<-PROMPT
+
+  #   THIS IS A POKEMON BATTLE, YOU ARE FIGHTING AGAINST ENEMY #{player_selected_pokemon.pokemon.name} POKEMON, YOUR POKEMON is #{opponent_selected_pokemon.pokemon.name} CHOOSE MOVE #{player_selected_pokemon.pokemon.move1.move_name} ACCORDING TO #{player_selected_pokemon.pokemon.name} Pokemon type
+
+
+  #   PROMPT
+  # response = RubyLLM.chat.ask(prompt)
+  # puts response.content
 
     Move.pluck(:id).sample
   end
