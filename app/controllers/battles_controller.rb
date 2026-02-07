@@ -1,7 +1,13 @@
 class BattlesController < ApplicationController
   def new
     @game = Game.find(params[:game_id])
+  end
 
+  def create
+    @game = Game.find(params[:game_id])
+    @battle = @game.battles.order(created_at: :desc).first || @game.battles.create!
+
+    redirect_to game_battle_path(@game, @battle)
   end
 
   def show

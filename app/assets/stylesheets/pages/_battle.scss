@@ -1,0 +1,136 @@
+.battle-screen {
+  display: grid;
+  gap: 1rem;
+}
+
+.battle-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.battle-panel .battle-card {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.55rem 0.65rem;
+  border: 2px solid #1f1b14;
+  background: #e3dfc6;
+}
+
+.battle-sprite img {
+  width: 56px;
+  height: 56px;
+  image-rendering: pixelated;
+}
+
+.battle-sprite.is-silhouette img {
+  filter: grayscale(1) brightness(0.2);
+}
+
+.battle-info {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.hp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.hp-bar {
+  flex: 1;
+  height: 10px;
+  border: 2px solid #1f1b14;
+  background: #c7c1ab;
+  position: relative;
+  overflow: hidden;
+}
+
+.hp-fill {
+  height: 100%;
+  background: #7acb7a;
+}
+
+.hp-text {
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.5rem;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.4rem;
+  border-radius: 999px;
+  border: 2px solid #1f1b14;
+  background: #f4e45b;
+  font-size: 0.5rem;
+}
+
+.battle-log {
+  border: 2px solid #1f1b14;
+  background: rgba(227, 223, 198, 0.3);
+  padding: 0.75rem;
+  box-shadow: inset 0 0 0 2px rgba(31, 27, 20, 0.1);
+}
+
+.battle-log-body {
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.battle-log-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.55rem;
+}
+
+.battle-command {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.command-box {
+  border: 2px solid #1f1b14;
+  background: rgba(227, 223, 198, 0.3);
+  padding: 0.75rem;
+  box-shadow: inset 0 0 0 2px rgba(31, 27, 20, 0.1);
+}
+
+.command-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.command-button {
+  border: 3px solid #1f1b14;
+  background: #f05d5e;
+  color: #fff7e4;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  font-size: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 #1f1b14;
+  cursor: pointer;
+}
+
+.command-button.is-disabled {
+  background: #c7c1ab;
+  color: #6f6a5a;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .battle-columns {
+    grid-template-columns: 1fr;
+  }
+}
