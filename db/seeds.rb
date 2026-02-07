@@ -141,7 +141,7 @@ dummypoke.save
 puts "Seeded dummies"
 
 # Seed opponent teams
-bossGame = Game.create(user_id: dummyuser.id, status: "boss" )
-red = Team.create!(game_id: bossGame.id, opponent: "boss")
-redPoke1 = SelectedPokemon.new(pokemon_id: Pokemon.where(number: 3, team_id: red.id))
-redPoke1.save
+# bossGame = Game.create(user_id: dummyuser.id, status: "boss" )
+# red = Team.create!(game_id: bossGame.id, opponent: "boss")
+# redPoke1 = SelectedPokemon.new(pokemon_id: Pokemon.where(number: 3, team_id: red.id))
+# redPoke1.save
