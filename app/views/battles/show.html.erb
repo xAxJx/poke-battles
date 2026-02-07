@@ -1,11 +1,9 @@
 <% game = @battle.game %>
 <% player_pokemon = @player_active&.pokemon %>
 <% opponent_pokemon = @opponent_active&.pokemon %>
-<% player_team = Team.find_by(game_id: @battle.game_id, opponent: [false, nil]) || Team.find_by(game_id: @battle.game_id, opponent: "false") %>
 <% player_team_ids = @player_team_selected.map(&:id) %>
 <% opponent_team_ids = @opponent_team_selected.map(&:id) %>
-<% battle_actions = Action.includes(:move).where(battle_id: @battle.id).order(created_at: :desc).limit(20).reverse %>
-<% player_moves = (@player_active&.learned_moves || []).map(&:move).compact.first(4) %>
+<% player_team = @player_team %>
 
 <section class="landing battle-arena" data-landing-audio data-confirm-url="<%= asset_path('confirm.mp3') %>" data-ambient-url="<%= asset_path('Walen - Gameboy (freetouse.com).mp3') %>">
   <div class="landing-shell">
@@ -101,9 +99,9 @@
         <div class="battle-log">
           <h2 class="panel-title">Battle Log</h2>
           <div class="battle-log-body">
-            <% if battle_actions.any? %>
+            <% if @battle_actions.any? %>
               <ul class="battle-log-list">
-                <% battle_actions.each do |action| %>
+                <% @battle_actions.each do |action| %>
                   <% action_selected_id = action.respond_to?(:id_selected_pokemons) ? action.id_selected_pokemons : action.selected_pokemon_id %>
                   <% side = if player_team_ids.include?(action_selected_id)
                               "PLAYER"
@@ -112,8 +110,17 @@
                             else
                               "UNKNOWN"
                             end %>
-                  <% move_name = action.move&.name || Move.find_by(id: action.move_id)&.name || "move_id: #{action.move_id}" %>
-                  <li>[<%= side %>] used <%= move_name %></li>
+                  <% move = action.move %>
+                  <% move_name = move&.name || Move.find_by(id: action.move_id)&.name || "move_id: #{action.move_id}" %>
+                  <% power = if move && move.respond_to?(:move_power) && move.move_power.present?
+                               move.move_power
+                             elsif move && move.respond_to?(:power) && move.power.present?
+                               move.power
+                             else
+                               10
+                             end %>
+                  <% pokemon_name = action.selected_pokemon&.pokemon&.name&.capitalize || "Unknown" %>
+                  <li>[<%= side %>] <%= pokemon_name %> used <%= move_name %> (-<%= [power.to_i, 1].max %>)</li>
                 <% end %>
               </ul>
             <% else %>
@@ -124,15 +131,24 @@
 
         <div class="battle-command">
           <h2 class="panel-title">Command</h2>
+          <% if @battle_over %>
+            <p class="battle-helper"><%= @battle_result %></p>
+          <% elsif !@opponent_ready %>
+            <p class="battle-helper">Waiting for opponent</p>
+          <% end %>
           <div class="command-box">
-            <%= form_with model: Action.new, url: game_battle_actions_path(game, @battle), method: :post, local: true do %>
-              <%= hidden_field_tag "action[battle_id]", @battle.id %>
-              <%= hidden_field_tag "action[id_selected_pokemons]", @player_active&.id %>
+            <%= form_with scope: :battle_action, url: game_battle_actions_path(game, @battle), method: :post, local: true do %>
+              <%= hidden_field_tag "battle_action[battle_id]", @battle.id %>
+              <%= hidden_field_tag "battle_action[id_selected_pokemons]", @player_active&.id %>
               <div class="command-grid">
                 <% 4.times do |index| %>
-                  <% move = player_moves[index] %>
+                  <% move = @player_moves[index] %>
                   <% if move %>
-                    <button type="submit" class="command-button" name="action[move_id]" value="<%= move.id %>"><%= move.name %></button>
+                    <% if !@battle_over && @opponent_ready && @player_active.present? %>
+                      <button type="submit" class="command-button" name="battle_action[move_id]" value="<%= move.id %>"><%= move.name %></button>
+                    <% else %>
+                      <button type="button" class="command-button is-disabled" disabled><%= move.name %></button>
+                    <% end %>
                   <% else %>
                     <button type="button" class="command-button is-disabled" disabled>—</button>
                   <% end %>
