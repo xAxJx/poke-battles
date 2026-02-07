@@ -50,7 +50,9 @@ class ActionsController < ApplicationController
     return nil if action_params[:pokemon_id].blank?
 
     player_team = Team.find_by(game_id: @battle.game_id, opponent: [false, nil]) ||
-      Team.find_by(game_id: @battle.game_id, opponent: "false")
+      Team.find_by(game_id: @battle.game_id, opponent: "false") ||
+      Team.find_by(game_id: @battle.game_id, opponent: "player") ||
+      Team.where(game_id: @battle.game_id).where.not(opponent: "opponent").first
     return nil if player_team.nil?
 
     team_column = SelectedPokemon.column_names.include?("id_Teams") ? :id_Teams : :team_id
@@ -61,9 +63,12 @@ class ActionsController < ApplicationController
 
   def prepare_battle_state
     player_team = Team.find_by(game_id: @battle.game_id, opponent: [false, nil]) ||
-      Team.find_by(game_id: @battle.game_id, opponent: "false")
+      Team.find_by(game_id: @battle.game_id, opponent: "false") ||
+      Team.find_by(game_id: @battle.game_id, opponent: "player") ||
+      Team.where(game_id: @battle.game_id).where.not(opponent: "opponent").first
     opponent_team = Team.find_by(game_id: @battle.game_id, opponent: true) ||
-      Team.find_by(game_id: @battle.game_id, opponent: "true")
+      Team.find_by(game_id: @battle.game_id, opponent: "true") ||
+      Team.find_by(game_id: @battle.game_id, opponent: "opponent")
 
     @player_team_selected = selected_pokemons_for(@battle, player_team)
     if opponent_team
@@ -72,25 +77,25 @@ class ActionsController < ApplicationController
       @opponent_team_selected = SelectedPokemon.none
     end
 
-    @player_active = active_selected_pokemon(@player_team_selected)
-    @opponent_active = active_selected_pokemon(@opponent_team_selected)
+    @player_active = first_selected_pokemon(@player_team_selected)
+    @opponent_active = first_selected_pokemon(@opponent_team_selected)
     @recent_actions = @battle.actions.order(created_at: :desc).limit(10)
   end
 
   def selected_pokemons_for(battle, team)
     return SelectedPokemon.none if team.nil?
 
-    scope = SelectedPokemon.all
+    scope = SelectedPokemon.includes(:pokemon)
     scope = scope.where(id_Battles: battle.id) if SelectedPokemon.column_names.include?("id_Battles")
 
     if SelectedPokemon.column_names.include?("id_Teams")
-      scope.where(id_Teams: team.id)
+      scope.where(id_Teams: team.id).order(:id)
     else
-      scope.where(team_id: team.id)
+      scope.where(team_id: team.id).order(:id)
     end
   end
 
-  def active_selected_pokemon(selected_pokemons)
-    selected_pokemons.detect { |selected| selected.hp_current.to_i > 0 } || selected_pokemons.first
+  def first_selected_pokemon(selected_pokemons)
+    selected_pokemons.first
   end
 end
