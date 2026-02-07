@@ -1,0 +1,112 @@
+<% team = @game.teams.last %>
+<% selected_pokemons = team ? SelectedPokemon.includes(:pokemon).where(team_id: team.id) : [] %>
+<% team_size = 3 %>
+<% selected_count = selected_pokemons.size %>
+
+<section class="landing" data-landing-audio data-confirm-url="<%= asset_path('confirm.mp3') %>" data-ambient-url="<%= asset_path('Walen - Gameboy (freetouse.com).mp3') %>">
+  <div class="landing-shell">
+    <div class="landing-screen">
+      <div class="screen-header">
+        <p class="screen-title">Game Setup</p>
+        <div class="screen-meta">
+          <span class="game-id">ID: <%= @game.id %></span>
+          <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false">
+            <span class="sound-icon" aria-hidden="true">🔊</span>
+            <span class="sound-label" data-sound-label>Sound Off</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="screen-body game-setup">
+        <div class="team-panel">
+          <h2 class="panel-title">Your Team</h2>
+
+          <% if selected_pokemons.any? %>
+            <div class="team-list">
+              <% selected_pokemons.each do |selection| %>
+                <% pokemon = selection.pokemon %>
+                <% next unless pokemon %>
+                <div class="team-card">
+                  <div class="team-sprite">
+                    <% if pokemon.picture.present? %>
+                      <%= image_tag pokemon.picture, alt: pokemon.name %>
+                    <% end %>
+                  </div>
+                  <div class="team-info">
+                    <p class="team-name"><%= pokemon.name.capitalize %></p>
+                    <div class="team-types">
+                      <% if pokemon.type1.present? %>
+                        <span class="type-badge type-<%= pokemon.type1.to_s.parameterize %>"><%= pokemon.type1 %></span>
+                      <% end %>
+                      <% if pokemon.type2.present? %>
+                        <span class="type-badge type-<%= pokemon.type2.to_s.parameterize %>"><%= pokemon.type2 %></span>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="empty-state">No Pokémon selected yet.</p>
+          <% end %>
+        </div>
+
+        <%# Retrieve opponent team %>
+        <% opponent_team = Team.where(game_id: @game.id, opponent: "opponent")[0]%>
+        <% opponent_pokes = SelectedPokemon.where(team_id: opponent_team.id) %>
+
+        <%# Display opponent team %>
+        <div class="team-panel opponent-panel">
+          <h2 class="panel-title">Opponent Team</h2>
+          <p class="panel-helper">Opponent team will be selected automatically.</p>
+          <% if Team.find_by(opponent: "opponent") %>
+          <div class="team-list">
+            <% opponent_pokes.each do |oppPokemon|%>
+              <div class="team-card opponent-card">
+                <div class="team-sprite">
+                  <span class="sprite-placeholder"> <img src="<%=oppPokemon.pokemon.picture%>"> </span>
+                </div>
+                <div class="team-info">
+                  <p class="team-name"> <%=oppPokemon.pokemon.name%> </p>
+                  <div class="team-types">
+                    <span class="type-badge type-<%= oppPokemon.pokemon.type1.to_s.parameterize %>"><%=oppPokemon.pokemon.type1%> </span>
+                    <% if oppPokemon.pokemon.type2 != "" %>
+                      <span class="type-badge type-<%= oppPokemon.pokemon.type2.to_s.parameterize %>"><%=oppPokemon.pokemon.type2%> </span>
+                    <%end%>
+                    <br>
+                    <p> <%= Move.find_by(id: oppPokemon.move1.to_i).name %> <%= Move.find_by(id: oppPokemon.move2.to_i).name %> <%= Move.find_by(id: oppPokemon.move3.to_i).name %> <%= Move.find_by(id: oppPokemon.move4.to_i).name %> </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <% end %>
+        </div>
+
+        <div class="battle-actions">
+          <% if selected_count == team_size %>
+            <%# TODO: wire to battle route later %>
+            <%= link_to "Start Battle", "#", class: "start-button battle-button", data: { sound: "confirm" } %>
+          <% else %>
+            <button type="button" class="start-button battle-button is-disabled" disabled>Start Battle</button>
+            <p class="battle-helper">Select 3 Pok&#233;mon to start.</p>
+          <% end %>
+        </div>
+
+        <div class="game-actions">
+          <% if team.present? %>
+            <%= link_to "Edit Team", game_team_path(@game, team), class: "start-button" %>
+          <% else %>
+            <%= link_to "Create Team", game_teams_path(@game), data: { turbo_method: :post }, class: "start-button" %>
+          <% end %>
+
+          <div class="secondary-actions">
+            <%= link_to "Back to Home", root_path, class: "menu-link" %>
+            <%= link_to "Pokémon List", pokemons_path, class: "menu-link" %>
+            <%= link_to "Move List", moves_path, class: "menu-link" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

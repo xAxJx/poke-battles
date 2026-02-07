@@ -82,7 +82,7 @@
         </div>
 
         <div class="team-actions">
-          <%= link_to (selected_pokemons.any? ? "Confirm Team" : "Back"), game_path(@game), class: "start-button" %>
+          <%= link_to (selected_pokemons.any? ? "Confirm Team" : "Back"), new_game_battle_path, class: "start-button" %>
           <div class="secondary-actions">
             <%= link_to "Pokémon List", pokemons_path, class: "menu-link" %>
             <%= link_to "Move List", moves_path, class: "menu-link" %>
