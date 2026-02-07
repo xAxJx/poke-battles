@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_04_065229) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_07_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,7 +83,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_04_065229) do
     t.string "move4"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "moves"
   end
 
   create_table "selected_pokemons", force: :cascade do |t|
@@ -99,14 +98,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_04_065229) do
     t.string "move2"
     t.string "move3"
     t.string "move4"
-    t.bigint "move1_id"
-    t.bigint "move2_id"
-    t.bigint "move3_id"
-    t.bigint "move4_id"
-    t.index ["move1_id"], name: "index_selected_pokemons_on_move1_id"
-    t.index ["move2_id"], name: "index_selected_pokemons_on_move2_id"
-    t.index ["move3_id"], name: "index_selected_pokemons_on_move3_id"
-    t.index ["move4_id"], name: "index_selected_pokemons_on_move4_id"
     t.index ["pokemon_id"], name: "index_selected_pokemons_on_pokemon_id"
     t.index ["team_id"], name: "index_selected_pokemons_on_team_id"
   end
@@ -138,10 +129,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_04_065229) do
   add_foreign_key "games", "users"
   add_foreign_key "learned_moves", "moves"
   add_foreign_key "learned_moves", "selected_pokemons"
-  add_foreign_key "selected_pokemons", "learned_moves", column: "move1_id"
-  add_foreign_key "selected_pokemons", "learned_moves", column: "move2_id"
-  add_foreign_key "selected_pokemons", "learned_moves", column: "move3_id"
-  add_foreign_key "selected_pokemons", "learned_moves", column: "move4_id"
   add_foreign_key "selected_pokemons", "pokemons"
   add_foreign_key "selected_pokemons", "teams"
   add_foreign_key "teams", "games"

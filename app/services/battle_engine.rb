@@ -11,18 +11,18 @@ class BattleEngine
       move_id: player_move_id
     )
 
-    opponent_selected_pokemon = opponent_active_for(battle)
-    if opponent_selected_pokemon.nil?
+    opponent_selected_pokemon = opponent_first_for(battle)
+    if opponent_selected_pokemon.nil? || opponent_selected_pokemon.hp_current.to_i <= 0
       return {
         player_action_id: player_action.id,
         opponent_action_id: nil,
         player_damage: 0,
         opponent_damage: 0,
         player_hp_after: player_selected_pokemon.hp_current.to_i,
-        opponent_hp_after: nil,
+        opponent_hp_after: opponent_selected_pokemon&.hp_current.to_i,
         player_fainted: player_selected_pokemon.hp_current.to_i <= 0,
-        opponent_fainted: false,
-        opponent_missing: true
+        opponent_fainted: opponent_selected_pokemon ? true : false,
+        opponent_missing: opponent_selected_pokemon.nil?
       }
     end
 
@@ -82,12 +82,15 @@ class BattleEngine
 
   def self.player_team_for(battle)
     Team.find_by(game_id: battle.game_id, opponent: [false, nil]) ||
-      Team.find_by(game_id: battle.game_id, opponent: "false")
+      Team.find_by(game_id: battle.game_id, opponent: "false") ||
+      Team.find_by(game_id: battle.game_id, opponent: "player") ||
+      Team.where(game_id: battle.game_id).where.not(opponent: "opponent").first
   end
 
   def self.opponent_team_for(battle)
     Team.find_by(game_id: battle.game_id, opponent: true) ||
-      Team.find_by(game_id: battle.game_id, opponent: "true")
+      Team.find_by(game_id: battle.game_id, opponent: "true") ||
+      Team.find_by(game_id: battle.game_id, opponent: "opponent")
   end
 
   def self.player_selected_pokemon_in_team?(selected_pokemon, player_team, battle)
@@ -108,7 +111,7 @@ class BattleEngine
     true
   end
 
-  def self.opponent_active_for(battle)
+  def self.opponent_first_for(battle)
     opponent_team = opponent_team_for(battle)
     return nil if opponent_team.nil?
 
@@ -123,7 +126,7 @@ class BattleEngine
       scope = scope.where(team_id: opponent_team.id)
     end
 
-    scope.detect { |selected| selected.hp_current.to_i > 0 } || scope.first
+    scope.order(:id).first
   end
 
   def self.learned_moves_for(selected_pokemon)
@@ -140,6 +143,6 @@ class BattleEngine
                        :player_team_for,
                        :opponent_team_for,
                        :player_selected_pokemon_in_team?,
-                       :opponent_active_for,
+                       :opponent_first_for,
                        :learned_moves_for
 end

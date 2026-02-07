@@ -86,7 +86,7 @@
         <div class="battle-actions">
           <% if selected_count == team_size %>
             <%# TODO: wire to battle route later %>
-            <%= link_to "Start Battle", "#", class: "start-button battle-button", data: { sound: "confirm" } %>
+            <%= link_to "Start Battle", game_battles_path(@game), class: "start-button battle-button", data: { turbo_method: :post, sound: "confirm" } %>
           <% else %>
             <button type="button" class="start-button battle-button is-disabled" disabled>Start Battle</button>
             <p class="battle-helper">Select 3 Pok&#233;mon to start.</p>
