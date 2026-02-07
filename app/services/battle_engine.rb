@@ -1,8 +1,31 @@
 class BattleEngine
   def self.play_turn!(battle:, player_selected_pokemon:, player_move_id:)
     player_team = player_team_for(battle)
-    unless player_team && player_selected_pokemon_in_team?(player_selected_pokemon, player_team, battle)
+    opponent_team = opponent_team_for(battle)
+    raise ArgumentError, "Player team not found" unless player_team
+
+    player_active = active_for_team(battle, player_team)
+    opponent_active = active_for_team(battle, opponent_team) if opponent_team
+
+    if opponent_active.nil?
+      raise ArgumentError, "Opponent not ready"
+    end
+
+    if player_active.nil?
+      raise ArgumentError, "Player has no available pokemon"
+    end
+
+    player_selected_pokemon ||= player_active
+    unless player_selected_pokemon_in_team?(player_selected_pokemon, player_team, battle)
       raise ArgumentError, "Selected pokemon is not on the player team for this battle"
+    end
+
+    if player_selected_pokemon.id != player_active.id
+      raise ArgumentError, "Selected pokemon is not the active battler"
+    end
+
+    if battle_over?(battle, player_team, opponent_team)
+      raise ArgumentError, "Battle already finished"
     end
 
     player_action = Action.create!(
@@ -11,32 +34,17 @@ class BattleEngine
       move_id: player_move_id
     )
 
-    opponent_selected_pokemon = opponent_first_for(battle)
-    if opponent_selected_pokemon.nil? || opponent_selected_pokemon.hp_current.to_i <= 0
-      return {
-        player_action_id: player_action.id,
-        opponent_action_id: nil,
-        player_damage: 0,
-        opponent_damage: 0,
-        player_hp_after: player_selected_pokemon.hp_current.to_i,
-        opponent_hp_after: opponent_selected_pokemon&.hp_current.to_i,
-        player_fainted: player_selected_pokemon.hp_current.to_i <= 0,
-        opponent_fainted: opponent_selected_pokemon ? true : false,
-        opponent_missing: opponent_selected_pokemon.nil?
-      }
-    end
-
-    opponent_move_id = opponent_move_for(battle, opponent_selected_pokemon)
+    opponent_move_id = opponent_move_for(battle, opponent_active)
     opponent_action = Action.create!(
       battle: battle,
-      selected_pokemon: opponent_selected_pokemon,
+      selected_pokemon: opponent_active,
       move_id: opponent_move_id
     )
 
     player_damage = damage_for_move(player_move_id)
     opponent_damage = damage_for_move(opponent_move_id)
 
-    opponent_hp_after = apply_damage!(opponent_selected_pokemon, player_damage)
+    opponent_hp_after = apply_damage!(opponent_active, player_damage)
     player_hp_after = apply_damage!(player_selected_pokemon, opponent_damage)
 
     {
@@ -111,9 +119,8 @@ class BattleEngine
     true
   end
 
-  def self.opponent_first_for(battle)
-    opponent_team = opponent_team_for(battle)
-    return nil if opponent_team.nil?
+  def self.active_for_team(battle, team)
+    return nil if team.nil?
 
     scope = SelectedPokemon.all
     if SelectedPokemon.column_names.include?("id_Battles")
@@ -121,12 +128,12 @@ class BattleEngine
     end
 
     if SelectedPokemon.column_names.include?("id_Teams")
-      scope = scope.where(id_Teams: opponent_team.id)
+      scope = scope.where(id_Teams: team.id)
     else
-      scope = scope.where(team_id: opponent_team.id)
+      scope = scope.where(team_id: team.id)
     end
 
-    scope.order(:id).first
+    scope.order(:id).detect { |selected| selected.hp_current.to_i > 0 } || scope.order(:id).first
   end
 
   def self.learned_moves_for(selected_pokemon)
@@ -137,12 +144,21 @@ class BattleEngine
     end
   end
 
+  def self.battle_over?(battle, player_team, opponent_team)
+    player_active = active_for_team(battle, player_team)
+    opponent_active = active_for_team(battle, opponent_team)
+    player_alive = player_active && player_active.hp_current.to_i > 0
+    opponent_alive = opponent_active && opponent_active.hp_current.to_i > 0
+    !player_alive || !opponent_alive
+  end
+
   private_class_method :opponent_move_for,
                        :damage_for_move,
                        :apply_damage!,
                        :player_team_for,
                        :opponent_team_for,
                        :player_selected_pokemon_in_team?,
-                       :opponent_first_for,
+                       :active_for_team,
+                       :battle_over?,
                        :learned_moves_for
 end
