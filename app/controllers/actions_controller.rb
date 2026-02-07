@@ -41,7 +41,7 @@ class ActionsController < ApplicationController
   end
 
   def action_params
-    params.require(:action).permit(:selected_pokemon_id, :id_selected_pokemons, :pokemon_id, :move_id)
+    params.fetch(:battle_action, {}).permit(:selected_pokemon_id, :id_selected_pokemons, :pokemon_id, :move_id)
   end
 
   def resolve_selected_pokemon

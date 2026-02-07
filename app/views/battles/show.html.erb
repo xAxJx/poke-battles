@@ -137,15 +137,15 @@
             <p class="battle-helper">Waiting for opponent</p>
           <% end %>
           <div class="command-box">
-            <%= form_with model: Action.new, url: game_battle_actions_path(game, @battle), method: :post, local: true do %>
-              <%= hidden_field_tag "action[battle_id]", @battle.id %>
-              <%= hidden_field_tag "action[id_selected_pokemons]", @player_active&.id %>
+            <%= form_with scope: :battle_action, url: game_battle_actions_path(game, @battle), method: :post, local: true do %>
+              <%= hidden_field_tag "battle_action[battle_id]", @battle.id %>
+              <%= hidden_field_tag "battle_action[id_selected_pokemons]", @player_active&.id %>
               <div class="command-grid">
                 <% 4.times do |index| %>
                   <% move = @player_moves[index] %>
                   <% if move %>
                     <% if !@battle_over && @opponent_ready && @player_active.present? %>
-                      <button type="submit" class="command-button" name="action[move_id]" value="<%= move.id %>"><%= move.name %></button>
+                      <button type="submit" class="command-button" name="battle_action[move_id]" value="<%= move.id %>"><%= move.name %></button>
                     <% else %>
                       <button type="button" class="command-button is-disabled" disabled><%= move.name %></button>
                     <% end %>
