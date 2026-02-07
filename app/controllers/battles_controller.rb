@@ -32,6 +32,12 @@ class BattlesController < ApplicationController
     @battle_over = battle_over?(@player_team_selected, @opponent_team_selected)
     @opponent_ready = opponent_team.present? && @opponent_team_selected.any?
     @battle_result = battle_result(@player_team_selected, @opponent_team_selected)
+    @winner = winner_for(@player_team_selected, @opponent_team_selected)
+
+    if @battle_over
+      render :result
+      return
+    end
 
     Rails.logger.debug { "BattlesController#show battle_id=#{@battle.id} game_id=#{@battle.game_id}" }
     Rails.logger.debug { "BattlesController#show player_team_id=#{player_team&.id} opponent_team_id=#{opponent_team&.id}" }
@@ -141,5 +147,14 @@ class BattlesController < ApplicationController
     return "Opponent wins!" if opponent_alive && !player_alive
 
     "Battle ended"
+  end
+
+  def winner_for(player_selected, opponent_selected)
+    player_alive = player_selected.any? { |selected| selected.hp_current.to_i > 0 }
+    opponent_alive = opponent_selected.any? { |selected| selected.hp_current.to_i > 0 }
+    return :player if player_alive && !opponent_alive
+    return :opponent if opponent_alive && !player_alive
+
+    nil
   end
 end

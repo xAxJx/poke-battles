@@ -65,6 +65,15 @@ class BattleEngine
     learned_move_ids = learned_moves_for(opponent_selected_pokemon).pluck(:move_id)
     return learned_move_ids.sample if learned_move_ids.any?
 
+# Prompt the LLM to find what the suitable counter action is
+# Ask them to reply in a numeric value (ID)
+# Use that ID to create action
+
+
+
+
+
+
     Move.pluck(:id).sample
   end
 
