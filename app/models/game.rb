@@ -5,7 +5,7 @@ class Game < ApplicationRecord
   has_many :my_items, dependent: :destroy
   has_many :items, through: :my_items
 
-  STATUSES = %w[setup in_battle finished].freeze
+  STATUSES = %w[setup in_battle finished dummy].freeze
 
   validates :status, inclusion: { in: STATUSES }, allow_nil: true
 end
