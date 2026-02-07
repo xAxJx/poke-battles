@@ -143,15 +143,22 @@ class ActionsController < ApplicationController
     learned = selected_pokemon.learned_moves.includes(:move).map(&:move).compact
     return learned.first(4) if learned.any?
 
-    move_ids = [
+    raw_moves = [
       selected_pokemon.respond_to?(:move1) ? selected_pokemon.move1 : nil,
       selected_pokemon.respond_to?(:move2) ? selected_pokemon.move2 : nil,
       selected_pokemon.respond_to?(:move3) ? selected_pokemon.move3 : nil,
       selected_pokemon.respond_to?(:move4) ? selected_pokemon.move4 : nil
-    ].compact.map(&:to_i).reject(&:zero?)
+    ].compact
 
+    move_ids = raw_moves.map { |value| value.to_i }.reject(&:zero?)
     moves_by_id = Move.where(id: move_ids).index_by(&:id)
-    move_ids.map { |move_id| moves_by_id[move_id] }.compact.first(4)
+    moves = move_ids.map { |move_id| moves_by_id[move_id] }.compact
+
+    if moves.empty?
+      moves = Move.where(name: raw_moves).index_by(&:name).values
+    end
+
+    moves.first(4)
   end
 
   def battle_over?(player_selected, opponent_selected)

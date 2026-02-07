@@ -143,8 +143,12 @@
               <div class="command-grid">
                 <% 4.times do |index| %>
                   <% move = @player_moves[index] %>
-                  <% if move && !@battle_over && @opponent_ready && @player_active.present? %>
-                    <button type="submit" class="command-button" name="action[move_id]" value="<%= move.id %>"><%= move.name %></button>
+                  <% if move %>
+                    <% if !@battle_over && @opponent_ready && @player_active.present? %>
+                      <button type="submit" class="command-button" name="action[move_id]" value="<%= move.id %>"><%= move.name %></button>
+                    <% else %>
+                      <button type="button" class="command-button is-disabled" disabled><%= move.name %></button>
+                    <% end %>
                   <% else %>
                     <button type="button" class="command-button is-disabled" disabled>—</button>
                   <% end %>
